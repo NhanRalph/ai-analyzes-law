@@ -1,0 +1,11 @@
+# Thư viện đọc file .docx
+python-docx>=0.8.11
+
+# Thư viện làm việc với Google Sheets
+gspread>=5.12.0
+google-auth>=2.23.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.1.1
+
+# Thư viện hỗ trợ
+regex>=2023.10.3

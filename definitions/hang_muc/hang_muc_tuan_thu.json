@@ -1,0 +1,182 @@
+[
+  {
+    "id": "CAT_01",
+    "hang_muc_tuan_thu": "Yêu cầu chung",
+    "ten_tieng_anh": "General Requirements",
+    "dinh_nghia": "Các quy định mang tính nguyên tắc, áp dụng rộng rãi cho nhiều hoạt động hoặc là tiền đề cho các hoạt động khác (phân loại, ghi nhãn, an toàn chung).",
+    "detection_keywords": [
+      "phân loại hóa chất",
+      "ghs",
+      "ghi nhãn",
+      "phiếu an toàn hóa chất",
+      "msds",
+      "sds",
+      "khai báo hóa chất",
+      "huấn luyện an toàn",
+      "đào tạo",
+      "trách nhiệm quản lý"
+    ],
+    "doi_tuong_ap_dung": "Tất cả các loại hóa chất",
+    "uu_tien_kiem_tra": "Cao"
+  },
+  {
+    "id": "CAT_02",
+    "hang_muc_tuan_thu": "Hoạt động bị cấm",
+    "ten_tieng_anh": "Prohibited Activities",
+    "dinh_nghia": "Các quy định liệt kê hành vi, loại hóa chất không được phép thực hiện, hoặc chỉ được thực hiện trong trường hợp ngoại lệ đặc biệt.",
+    "detection_keywords": [
+      "nghiêm cấm",
+      "bị cấm",
+      "không được phép",
+      "hành vi bị cấm",
+      "trái phép",
+      "cấm sản xuất",
+      "cấm kinh doanh",
+      "sử dụng sai mục đích"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất cấm, Hóa chất độc, Tiền chất",
+    "uu_tien_kiem_tra": "Rất cao (Critical)"
+  },
+  {
+    "id": "CAT_03",
+    "hang_muc_tuan_thu": "Nghiên cứu",
+    "ten_tieng_anh": "Research",
+    "dinh_nghia": "Quy định áp dụng cho việc sử dụng hóa chất trong phòng thí nghiệm, viện nghiên cứu nhằm mục đích khoa học, quy mô nhỏ.",
+    "detection_keywords": [
+      "nghiên cứu khoa học",
+      "phòng thí nghiệm",
+      "thí nghiệm",
+      "quy mô phòng thí nghiệm",
+      "mẫu thử",
+      "nghiên cứu thử nghiệm"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất nguy hiểm, Tiền chất (quy mô nhỏ)",
+    "uu_tien_kiem_tra": "Trung bình"
+  },
+  {
+    "id": "CAT_04",
+    "hang_muc_tuan_thu": "Thử nghiệm",
+    "ten_tieng_anh": "Testing",
+    "dinh_nghia": "Quy định về kiểm tra, đánh giá, phân tích thành phần, tính chất lý-hóa, độc tính bởi các đơn vị chức năng.",
+    "detection_keywords": [
+      "thử nghiệm",
+      "kiểm nghiệm",
+      "phân tích hóa chất",
+      "đánh giá sự phù hợp",
+      "trung tâm kiểm nghiệm",
+      "lấy mẫu",
+      "lưu mẫu"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất mới, Hóa chất nhập khẩu",
+    "uu_tien_kiem_tra": "Trung bình"
+  },
+  {
+    "id": "CAT_05",
+    "hang_muc_tuan_thu": "Sản xuất",
+    "ten_tieng_anh": "Production",
+    "dinh_nghia": "Yêu cầu pháp lý đối với cơ sở vật chất, con người và quy trình để tạo ra hóa chất (bao gồm pha chế, chiết xuất...).",
+    "detection_keywords": [
+      "sản xuất hóa chất",
+      "pha chế",
+      "trích ly",
+      "cô đặc",
+      "dây chuyền sản xuất",
+      "nhà xưởng",
+      "giấy chứng nhận đủ điều kiện sản xuất",
+      "giấy phép sản xuất"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất SXKD có điều kiện, Hóa chất hạn chế",
+    "uu_tien_kiem_tra": "Cao"
+  },
+  {
+    "id": "CAT_06",
+    "hang_muc_tuan_thu": "Kinh doanh",
+    "ten_tieng_anh": "Trading",
+    "dinh_nghia": "Quy định về mua bán, xuất nhập khẩu, phân phối, kiểm soát dòng chảy thương mại.",
+    "detection_keywords": [
+      "kinh doanh hóa chất",
+      "mua bán",
+      "xuất khẩu",
+      "nhập khẩu",
+      "phân phối",
+      "cửa hàng",
+      "giấy phép kinh doanh",
+      "phiếu kiểm soát mua bán"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất SXKD có điều kiện, Tiền chất, Hóa chất hạn chế",
+    "uu_tien_kiem_tra": "Cao"
+  },
+  {
+    "id": "CAT_07",
+    "hang_muc_tuan_thu": "Vận chuyển",
+    "ten_tieng_anh": "Transportation",
+    "dinh_nghia": "Quy định về việc di chuyển hóa chất (đường bộ, thủy, sắt...), phương tiện và người áp tải.",
+    "detection_keywords": [
+      "vận chuyển",
+      "xe bồn",
+      "phương tiện vận chuyển",
+      "người áp tải",
+      "giấy phép vận chuyển",
+      "hàng nguy hiểm",
+      "đóng gói",
+      "bao bì vận chuyển"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất nguy hiểm",
+    "uu_tien_kiem_tra": "Cao"
+  },
+  {
+    "id": "CAT_08",
+    "hang_muc_tuan_thu": "Tồn trữ",
+    "ten_tieng_anh": "Storage",
+    "dinh_nghia": "Quy định kỹ thuật/an toàn về lưu giữ hóa chất tại kho, bãi, bồn chứa.",
+    "detection_keywords": [
+      "tồn trữ",
+      "lưu giữ",
+      "kho chứa",
+      "bồn chứa",
+      "bãi chứa",
+      "kho hóa chất",
+      "khoảng cách an toàn",
+      "bảo quản",
+      "xếp dỡ"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất nguy hiểm, Tiền chất",
+    "uu_tien_kiem_tra": "Cao"
+  },
+  {
+    "id": "CAT_09",
+    "hang_muc_tuan_thu": "Sử dụng",
+    "ten_tieng_anh": "Usage",
+    "dinh_nghia": "Trách nhiệm của người/tổ chức sử dụng hóa chất (không bán lại) để tạo sản phẩm khác hoặc dịch vụ.",
+    "detection_keywords": [
+      "sử dụng hóa chất",
+      "người sử dụng",
+      "tiêu thụ",
+      "định mức tiêu hao",
+      "tiếp xúc hóa chất",
+      "trang bị bảo hộ",
+      "an toàn sử dụng"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất độc, Tiền chất, Hóa chất nguy hiểm",
+    "uu_tien_kiem_tra": "Trung bình"
+  },
+  {
+    "id": "CAT_10",
+    "hang_muc_tuan_thu": "Xử lý",
+    "ten_tieng_anh": "Disposal & Treatment",
+    "dinh_nghia": "Quy định về thải bỏ, tiêu hủy hóa chất/bao bì và ứng phó sự cố.",
+    "detection_keywords": [
+      "xử lý chất thải",
+      "tiêu hủy",
+      "thải bỏ",
+      "xử lý sự cố",
+      "tràn đổ",
+      "rò rỉ",
+      "thu gom",
+      "bao bì thải",
+      "chất thải nguy hại"
+    ],
+    "doi_tuong_ap_dung": "Hóa chất nguy hiểm, Chất thải hóa chất",
+    "uu_tien_kiem_tra": "Cao"
+  }
+]
