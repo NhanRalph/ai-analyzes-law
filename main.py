@@ -11,6 +11,7 @@ from src.document_reader import DocumentReader
 from src.parser import LegalDocumentParser
 from src.json_exporter import JSONExporter
 from src.sheets_exporter import SheetsExporter
+from src.ai_classifier import AIClassifier
 
 def parse_arguments():
     """
@@ -64,6 +65,17 @@ def parse_arguments():
         help='Không xóa dữ liệu cũ trong Google Sheets (nối thêm)'
     )
     
+    parser.add_argument(
+        '--use-ai',
+        action='store_true',
+        help='Sử dụng Gemini AI để phân loại Điều/Khoản/Điểm'
+    )
+    
+    parser.add_argument(
+        '--gemini-api-key',
+        help='Gemini API Key (nếu không có trong .env)'
+    )
+    
     return parser.parse_args()
 
 def print_banner():
@@ -112,6 +124,11 @@ def print_summary(data):
     print(f"  Số Điều: {len(articles)}")
     print(f"  Số Khoản: {clauses}")
     print(f"  Số Điểm: {points}")
+    
+    # Thống kê AI
+    ai_classified = sum(1 for entry in data if entry.get('ai_classification'))
+    if ai_classified > 0:
+        print(f"  Số dòng được AI phân loại: {ai_classified}")
     print()
     
     # Hiển thị một vài entry mẫu
@@ -166,6 +183,13 @@ def main():
     
     print(f"✓ Đã parse {len(data)} entry")
     
+    # Bước 2.5: Phân loại bằng AI (nếu được yêu cầu)
+    if args.use_ai:
+        print("\n[2.5/4] Phân loại bằng Gemini AI (vui lòng đợi)...")
+        ai_classifier = AIClassifier(api_key=args.gemini_api_key)
+        data = ai_classifier.classify_batch(data)
+        print("✓ Đã hoàn thành phân loại bằng AI")
+    
     # In tóm tắt
     print_summary(data)
     
@@ -177,12 +201,20 @@ def main():
         # Xây dựng cấu trúc nested
         nested_data = parser.build_nested_structure()
         
+        # Lấy định nghĩa từ AI Classifier nếu có dùng AI
+        definitions = None
+        if args.use_ai:
+            definitions = {
+                'hoa_chat': ai_classifier.definitions_hoa_chat,
+                'hang_muc': ai_classifier.definitions_hang_muc
+            }
+        
         # Xuất cả hai dạng
         if args.json_filename:
             base_name = args.json_filename.replace('.json', '')
-            json_exporter.export_both(data, nested_data, base_name)
+            json_exporter.export_both(data, nested_data, base_name, definitions=definitions)
         else:
-            json_exporter.export_both(data, nested_data)
+            json_exporter.export_both(data, nested_data, definitions=definitions)
         print()
     
     # Bước 4: Xuất Google Sheets (nếu được yêu cầu)
@@ -204,7 +236,9 @@ def main():
         success = sheets_exporter.export_data(
             data,
             clear_existing=clear_existing,
-            sheet_name=args.sheet_name
+            sheet_name=args.sheet_name,
+            van_ban=parser.metadata.get('van_ban'),
+            ngay_ban_hanh=parser.metadata.get('ngay_ban_hanh')
         )
         
         if not success:

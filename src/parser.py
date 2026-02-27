@@ -22,6 +22,10 @@ class LegalDocumentParser:
         """
         Reset state của parser về trạng thái ban đầu
         """
+        self.metadata = {
+            'van_ban': 'Chưa xác định',
+            'ngay_ban_hanh': 'Chưa xác định'
+        }
         self.current_chapter = ""
         self.current_chapter_title = ""
         self.current_section = ""
@@ -45,6 +49,10 @@ class LegalDocumentParser:
         """
         self.data = []
         self.nested_structure = []
+        self.reset_state()
+        
+        # Trích xuất metadata
+        self.metadata = self.patterns.extract_doc_metadata(paragraphs)
         
         for i, para in enumerate(paragraphs):
             self._process_paragraph(para, i)
@@ -245,7 +253,8 @@ class LegalDocumentParser:
             if article_name and (not current_article or current_article['name'] != article_name):
                 current_article = {
                     'name': article_name,
-                    'clauses': []
+                    'clauses': [],
+                    'ai_classification': entry.get('ai_classification') if not clause_name else None
                 }
                 if current_chapter:
                     current_chapter['articles'].append(current_article)
@@ -256,7 +265,8 @@ class LegalDocumentParser:
                 current_clause = {
                     'name': clause_name,
                     'points': [],
-                    'content': content if not point_name else ""
+                    'content': content if not point_name else "",
+                    'ai_classification': entry.get('ai_classification') if not point_name else None
                 }
                 if current_article:
                     current_article['clauses'].append(current_clause)
@@ -265,7 +275,8 @@ class LegalDocumentParser:
             if point_name and current_clause:
                 point = {
                     'name': point_name,
-                    'content': content
+                    'content': content,
+                    'ai_classification': entry.get('ai_classification')
                 }
                 current_clause['points'].append(point)
             elif not clause_name and not point_name and current_article:
@@ -274,5 +285,9 @@ class LegalDocumentParser:
                     current_article['content'] = content
                 else:
                     current_article['content'] += " " + content
+                
+                # Cập nhật AI classification cho Điều nếu chưa có (lấy từ entry này)
+                if not current_article.get('ai_classification'):
+                    current_article['ai_classification'] = entry.get('ai_classification')
         
         return nested

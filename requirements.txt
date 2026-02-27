@@ -9,3 +9,5 @@ google-auth-httplib2>=0.1.1
 
 # Thư viện hỗ trợ
 regex>=2023.10.3
+python-dotenv>=1.0.0
+google-genai>=0.1.0

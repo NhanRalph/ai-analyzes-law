@@ -17,69 +17,64 @@
    pip install -r requirements.txt
    ```
 
-4. **Cấu hình Google Service Account:**
-   - Tạo Service Account tại [Google Cloud Console](https://console.cloud.google.com/)
-   - Enable Google Sheets API và Google Drive API
-   - Tải file credentials JSON và đặt vào `credentials/credentials.json`
-   - Share Google Sheet với email Service Account (quyền Editor)
+4. **Cấu hình môi trường:**
+   - **Google Sheets:** Tải credentials JSON từ Google Cloud Console và đặt vào `credentials/credentials.json`.
+   - **Gemini AI:** 
+     - Tạo file `.env` từ `.env.example`.
+     - Thêm `GEMINI_API_KEY=your_key_here` vào file `.env`. (Lấy key tại [Google AI Studio](https://aistudio.google.com/))
 
 ## Ví dụ sử dụng
 
-### 1. Xuất chỉ JSON
+### 1. Phân tích cơ bản (Chỉ JSON)
 ```bash
 python main.py docs/luat/69_2025_QH15_603983.docx --output-json
 ```
 
-### 2. Xuất chỉ Google Sheets
+### 2. Phân tích có sử dụng AI Classifier (Khuyên dùng)
+Sử dụng AI để phân loại các điều khoản theo định nghĩa Hóa chất và Hạng mục tuân thủ.
+```bash
+python main.py docs/luat/69_2025_QH15_603983.docx --output-json --use-ai
+```
+
+### 3. Xuất kết quả lên Google Sheets
 ```bash
 python main.py docs/luat/69_2025_QH15_603983.docx \
   --output-sheets \
-  --sheets-id "1PsJvspGzl0HPIu_AY2eT4HnQZOie84CpGGiwAH4NriU"
+  --sheets-id "YOUR_SHEET_ID" \
+  --use-ai
 ```
 
-### 3. Xuất cả hai với tên file tùy chỉnh
+### 4. Xuất cả hai với tên file tùy chỉnh
 ```bash
 python main.py docs/luat/69_2025_QH15_603983.docx \
   --output-json \
   --output-sheets \
   --sheets-id "YOUR_SHEET_ID" \
-  --json-filename "luat_69_2025"
+  --json-filename "luat_69_2025" \
+  --use-ai
 ```
 
-### 4. Xuất với tên worksheet cụ thể
+## Kiểm tra AI Classifier
+Để kiểm tra kết nối và khả năng phân loại của AI:
 ```bash
-python main.py docs/luat/69_2025_QH15_603983.docx \
-  --output-sheets \
-  --sheets-id "YOUR_SHEET_ID" \
-  --sheet-name "Luật Hóa Chất 2025"
+python tests/test_ai_classifier.py
 ```
 
-## Kết quả mẫu từ file test
-
-File test: `docs/luat/69_2025_QH15_603983.docx`
-
-**Thống kê:**
-- ✅ Tổng số entries: 291
-- ✅ Số Chương: 7
-- ✅ Số Điều: 48
-- ✅ Số Khoản: 285
-- ✅ Số Điểm: 126
-
-**Output files:**
-- JSON Flat: `output/luat_69_2025_flat.json`
-- JSON Nested: `output/luat_69_2025_nested.json`
-- Google Sheets: Link được hiển thị sau khi export
+## Kết quả đầu ra
+- **Dữ liệu AI:** Xuất hiện trong cột `ai_hang_muc`, `ai_nhom_hoa_chat` trên Sheets và trong trường `ai_classification` trong JSON.
+- **Tham chiếu:** File JSON output bao gồm cả danh sách các định nghĩa đã dùng trong phần `metadata.definitions`.
+- **Thống kê:** Hệ thống hiển thị số lượng Điều/Khoản đã được AI phân loại thành công.
 
 ## Troubleshooting
 
-### "externally-managed-environment"
-→ Sử dụng virtual environment (xem bước 2)
+### "ModuleNotFoundError: No module named 'dotenv' (hoặc 'google')"
+→ Đảm bảo bạn đã cài đặt lại thư viện: `pip install -r requirements.txt` trong virtual environment.
 
-### "FileNotFoundError: credentials.json"
-→ Đảm bảo file credentials.json nằm ở đúng vị trí
+### AI không hoạt động / Không thấy thông tin AI
+→ Đảm bảo bạn đã thêm tham số `--use-ai` trong câu lệnh chạy.
 
 ### "Permission denied" khi xuất Google Sheets
-→ Share Sheet với email Service Account và cấp quyền Editor
+→ Share Sheet với email Service Account (trong file credentials.json) và cấp quyền Editor.
 
-### Parser không nhận diện đúng cấu trúc
-→ Kiểm tra định dạng file .docx có đúng chuẩn không (Chương, Điều, Khoản, Điểm)
+### Lỗi Quota / Rate Limit AI
+→ Bản Gemini Free có giới hạn lượt gọi mỗi phút. Hệ thống tự động nghỉ 4 giây giữa các đợt phát ra yêu cầu.

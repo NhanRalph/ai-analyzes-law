@@ -18,6 +18,15 @@ class LegalPatterns:
     # Pattern cho Điều (Ví dụ: "Điều 1.", "Điều 25. Giải thích từ ngữ")
     ARTICLE_PATTERN = r'^\s*Đi[ềe]u\s+(\d+)\s*\.\s*(.*?)$'
     
+    # Pattern cho Số hiệu văn bản (Ví dụ: "Luật số: 69/2025/QH15")
+    DOC_NUMBER_PATTERN = r'^\s*Lu[ậa]t\s+s[ốo]:\s*([\w/\-]+)'
+    
+    # Pattern cho Ngày ban hành (Ví dụ: "ngày 14 tháng 6 năm 2025")
+    DOC_DATE_PATTERN = r' ngày (\d{1,2}) tháng (\d{1,2}) năm (\d{4})'
+    
+    # Pattern cho Tiêu đề văn bản (Ví dụ: "LUẬT HÓA CHẤT")
+    DOC_TITLE_PATTERN = r'^\s*(LU[ẬA]T(\s+.*)?)$'
+    
     # Pattern cho phần kết luật (thường in nghiêng)
     LAW_CONCLUSION_PATTERN = r'^\s*Luật\s+này\s+được\s+Quốc\s+hội'
     
@@ -156,6 +165,119 @@ class LegalPatterns:
             return True, point_letter, point_content
         return False, None, None
     
+    @staticmethod
+    def extract_doc_metadata(paragraphs):
+        """
+        Trích xuất thông tin văn bản (Số hiệu, Ngày, Tiêu đề) từ những dòng đầu tiên
+        
+        Args:
+            paragraphs (list): Danh sách các đoạn văn bản
+            
+        Returns:
+            dict: {van_ban: str, ngay_ban_hanh: str}
+        """
+        metadata = {
+            'van_ban': "Chưa xác định",
+            'ngay_ban_hanh': "Chưa xác định"
+        }
+        
+        if not paragraphs:
+            return metadata
+            
+        raw_number = ""
+        doc_title = ""
+        title_lines = []
+        date_line = ""
+        
+        # 1. Tìm Số hiệu và Ngày (anchor)
+        for i, para in enumerate(paragraphs[:25]):
+            p = para.strip()
+            if not p: continue
+            
+            clean_p = re.sub(r'\s+', ' ', p)
+            
+            # Tìm Số hiệu (pattern: [số]/[năm]/[cơ quan])
+            if not raw_number:
+                # Tìm chuỗi có dạng digit/digit/alpha
+                num_match = re.search(r'(\d+[\s/]+\d{4}[\s/]+[\w\-]+)', clean_p)
+                if num_match:
+                    raw_number = re.sub(r'\s+', '', num_match.group(1)).upper()
+                else:
+                    # Fallback tìm từ "Số:" hoặc "Số hiệu:"
+                    num_match = re.search(r'(?:S[ốo]|Số hiệu)\s*:?\s*([\w/\.\-]+)', clean_p, re.IGNORECASE)
+                    if num_match:
+                        raw_number = num_match.group(1).strip().upper()
+            
+            # Tìm Ngày
+            if metadata['ngay_ban_hanh'] == "Chưa xác định":
+                date_match = re.search(r'ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})', clean_p, re.IGNORECASE)
+                if date_match:
+                    day, month, year = date_match.groups()
+                    metadata['ngay_ban_hanh'] = f"{day.zfill(2)}/{month.zfill(2)}/{year}"
+                    date_line = p
+        
+        # 2. Tìm Tiêu đề (dòng Uppercase sau header)
+        skip_headers = [
+            "QUỐC HỘI", "CỘNG HÀ", "ĐỘC LẬP", "VĂN PHÒNG", "HÀ NỘI", 
+            "CHỦ NGHĨA", "VIỆT NAM", "HẠNH PHÚC", "TỰ DO", "CHỦ TỊCH"
+        ]
+        
+        # Cố gắng sửa lại skip_headers cho đúng chính tả nếu có lỗi
+        skip_headers = [h.replace("CỘNG HÀ", "CỘNG HÒA") for h in skip_headers]
+        
+        collecting_title = False
+        for i, para in enumerate(paragraphs[:25]):
+            p = para.strip()
+            if not p: continue
+            
+            p_upper = p.upper()
+            
+            # Bỏ qua dòng ngày và dòng số hiệu
+            if date_line and (p == date_line or date_line in p): continue
+            if raw_number and raw_number in p_upper: continue
+            if "SỐ:" in p_upper or "LUẬT SỐ:" in p_upper: continue
+            
+            # Nếu là dòng viết hoa toàn bộ và không phải common header
+            if p.isupper() and len(p) > 3:
+                if not any(header in p_upper for header in skip_headers):
+                    title_lines.append(p)
+                    collecting_title = True
+            elif collecting_title and len(p) > 0:
+                if p_upper.startswith("CĂN CỨ"):
+                    break
+        
+        # 3. Tổng hợp Tiêu đề
+        if title_lines:
+            # LUẬT HÓA CHẤT -> Luật Hóa Chất
+            doc_title = " ".join(title_lines).title()
+        
+        # Fallback
+        if not doc_title or "Luật" not in doc_title:
+             for para in paragraphs[:25]:
+                p_u = para.strip().upper()
+                if "LUẬT" in p_u and para.strip().isupper() and not any(h in p_u for h in skip_headers):
+                    doc_title = para.strip().title()
+                    break
+        
+        # 4. Tạo chuỗi final
+        parts = []
+        if raw_number:
+            parts.append(f"Luật số: {raw_number}")
+        
+        if doc_title:
+            if not doc_title.startswith("Luật"):
+                doc_title = "Luật " + doc_title
+            parts.append(doc_title)
+            
+        if parts:
+            # Loại bỏ phần trùng lặp nếu title rủi ro có chứa số hiệu
+            final_str = " ".join(parts)
+            # Nếu trong final_str có cụm "Luật Luật", ta thu gọn
+            final_str = re.sub(r'Luật Luật', 'Luật', final_str)
+            metadata['van_ban'] = final_str
+            
+        return metadata
+
     @staticmethod
     def ends_with_colon(text):
         """
