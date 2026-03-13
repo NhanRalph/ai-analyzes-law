@@ -32,6 +32,26 @@ pip install -r requirements.txt
 
 ## Sử dụng
 
+## Web App (giao diện trực quan)
+
+### Chạy Web App
+
+```bash
+uvicorn web.app:app --reload
+```
+
+Sau khi chạy, mở trình duyệt tại: `http://127.0.0.1:8000`
+
+### Tính năng trên Web UI
+
+- Upload file `.docx`
+- Chọn kiểu xuất: `JSON`, `Google Sheets`, hoặc cả hai
+- Chọn chế độ xử lý:
+  - `Tool`: tách ý thông thường (không AI)
+  - `Tool + AI`: tối ưu + phân loại bằng Gemini
+- Theo dõi trạng thái xử lý theo thời gian thực
+- Tải JSON flat/nested hoặc mở link Google Sheets sau khi hoàn tất
+
 ### Chỉ xuất JSON
 
 ```bash

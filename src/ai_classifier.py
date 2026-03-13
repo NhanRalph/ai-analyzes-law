@@ -25,7 +25,7 @@ class AIClassifier:
             self.client = None
         else:
             self.client = genai.Client(api_key=self.api_key)
-            self.model_id = 'gemini-3-flash-preview' # Sử dụng model 2.0 Flash mới nhất
+            self.model_id = 'gemini-2.5-flash' # Sử dụng model 2.0 Flash mới nhất
             
         self.definitions_hoa_chat = []
         self.definitions_hang_muc = []

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Law Web App</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+        background: #f5f6f8;
+        color: #1f2937;
+      }
+      .container {
+        max-width: 860px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+      }
+      h1 {
+        margin-top: 0;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .full {
+        grid-column: 1 / -1;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      input[type="text"],
+      select,
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+      .checks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 8px;
+      }
+      .checks label {
+        font-weight: 500;
+      }
+      button {
+        margin-top: 20px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button:disabled {
+        background: #93c5fd;
+        cursor: not-allowed;
+      }
+      .status {
+        margin-top: 20px;
+        padding: 14px;
+        border-radius: 8px;
+        background: #eff6ff;
+      }
+      .result {
+        margin-top: 16px;
+        background: #ecfdf5;
+        padding: 14px;
+        border-radius: 8px;
+      }
+      .error {
+        margin-top: 16px;
+        background: #fef2f2;
+        color: #991b1b;
+        padding: 14px;
+        border-radius: 8px;
+      }
+      a {
+        color: #1d4ed8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>AI-Law Web App</h1>
+      <p>Upload file luật .docx, chọn chế độ xử lý và định dạng xuất dữ liệu.</p>
+
+      <form id="processForm">
+        <div class="grid">
+          <div class="full">
+            <label for="input_file">File .docx</label>
+            <input id="input_file" name="input_file" type="file" accept=".docx" required />
+          </div>
+
+          <div class="full">
+            <label>Xuất dữ liệu</label>
+            <div class="checks">
+              <label><input type="checkbox" id="output_json" name="output_json" checked /> JSON</label>
+              <label><input type="checkbox" id="output_sheets" name="output_sheets" /> Google Sheets</label>
+            </div>
+          </div>
+
+          <div>
+            <label for="mode">Chế độ xử lý</label>
+            <select id="mode" name="mode">
+              <option value="tool">Tool (tách ý thông thường)</option>
+              <option value="tool_ai">Tool + AI (tối ưu + phân loại)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="gemini_api_key">Gemini API Key (tuỳ chọn)</label>
+            <input id="gemini_api_key" name="gemini_api_key" type="text" placeholder="Để trống để dùng .env" />
+          </div>
+
+          <div>
+            <label for="sheets_id">Google Sheets ID</label>
+            <input id="sheets_id" name="sheets_id" type="text" placeholder="Bắt buộc nếu chọn xuất Sheets" />
+          </div>
+
+          <div>
+            <label for="sheet_name">Tên Worksheet (tuỳ chọn)</label>
+            <input id="sheet_name" name="sheet_name" type="text" placeholder="VD: Luat 69/2025" />
+          </div>
+
+          <div>
+            <label for="credentials_path">Credentials Path</label>
+            <input id="credentials_path" name="credentials_path" type="text" value="credentials/credentials.json" />
+          </div>
+
+          <div>
+            <label>&nbsp;</label>
+            <label><input type="checkbox" id="no_clear" name="no_clear" /> Không xoá dữ liệu cũ trên Sheet</label>
+          </div>
+        </div>
+
+        <button id="submitBtn" type="submit">Bắt đầu xử lý</button>
+      </form>
+
+      <div id="status" class="status" style="display: none"></div>
+      <div id="result" class="result" style="display: none"></div>
+      <div id="error" class="error" style="display: none"></div>
+    </div>
+
+    <script>
+      const form = document.getElementById("processForm");
+      const statusBox = document.getElementById("status");
+      const resultBox = document.getElementById("result");
+      const errorBox = document.getElementById("error");
+      const submitBtn = document.getElementById("submitBtn");
+
+      let pollTimer = null;
+
+      function showStatus(message) {
+        statusBox.style.display = "block";
+        statusBox.textContent = message;
+      }
+
+      function showError(message) {
+        errorBox.style.display = "block";
+        errorBox.textContent = message;
+      }
+
+      function resetMessages() {
+        statusBox.style.display = "none";
+        resultBox.style.display = "none";
+        errorBox.style.display = "none";
+        resultBox.innerHTML = "";
+      }
+
+      async function pollStatus(jobId) {
+        pollTimer = setInterval(async () => {
+          try {
+            const res = await fetch(`/api/status/${jobId}`);
+            if (!res.ok) throw new Error("Không lấy được trạng thái job");
+            const job = await res.json();
+
+            showStatus(`Trạng thái: ${job.status} - ${job.message}`);
+
+            if (job.status === "done") {
+              clearInterval(pollTimer);
+              submitBtn.disabled = false;
+
+              const summary = job.result?.summary || {};
+              const files = job.result?.files || {};
+              const sheets = job.result?.sheets || {};
+
+              const links = [];
+              if (files.flat) {
+                links.push(`<li><a href="/api/download/${jobId}/flat" target="_blank">Tải JSON Flat</a></li>`);
+              }
+              if (files.nested) {
+                links.push(`<li><a href="/api/download/${jobId}/nested" target="_blank">Tải JSON Nested</a></li>`);
+              }
+              if (sheets.url) {
+                links.push(`<li><a href="${sheets.url}" target="_blank">Mở Google Sheets</a></li>`);
+              }
+
+              resultBox.style.display = "block";
+              resultBox.innerHTML = `
+                <strong>Hoàn thành</strong><br/>
+                Tổng dòng: ${summary.total_entries || 0} | Chương: ${summary.chapters || 0} | Mục: ${summary.sections || 0} | Điều: ${summary.articles || 0}<br/>
+                Khoản: ${summary.clauses || 0} | Điểm: ${summary.points || 0} | AI: ${summary.ai_classified || 0}<br/>
+                <ul>${links.join("")}</ul>
+              `;
+            }
+
+            if (job.status === "error") {
+              clearInterval(pollTimer);
+              submitBtn.disabled = false;
+              showError(job.error?.message || "Có lỗi xảy ra");
+            }
+          } catch (err) {
+            clearInterval(pollTimer);
+            submitBtn.disabled = false;
+            showError(err.message || "Lỗi không xác định");
+          }
+        }, 2000);
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        resetMessages();
+
+        const outputJson = document.getElementById("output_json").checked;
+        const outputSheets = document.getElementById("output_sheets").checked;
+
+        if (!outputJson && !outputSheets) {
+          showError("Bạn cần chọn ít nhất một kiểu xuất dữ liệu");
+          return;
+        }
+
+        const formData = new FormData();
+        const fileInput = document.getElementById("input_file");
+
+        if (!fileInput.files.length) {
+          showError("Bạn cần chọn file .docx");
+          return;
+        }
+
+        formData.append("input_file", fileInput.files[0]);
+        formData.append("output_json", outputJson);
+        formData.append("output_sheets", outputSheets);
+        formData.append("mode", document.getElementById("mode").value);
+        formData.append("sheets_id", document.getElementById("sheets_id").value);
+        formData.append("sheet_name", document.getElementById("sheet_name").value);
+        formData.append("credentials_path", document.getElementById("credentials_path").value);
+        formData.append("no_clear", document.getElementById("no_clear").checked);
+        formData.append("gemini_api_key", document.getElementById("gemini_api_key").value);
+
+        try {
+          submitBtn.disabled = true;
+          showStatus("Đang tạo job...");
+          const res = await fetch("/api/process", {
+            method: "POST",
+            body: formData,
+          });
+
+          const payload = await res.json();
+          if (!res.ok) throw new Error(payload.detail || "Không tạo được job");
+
+          showStatus(`Đã tạo job: ${payload.job_id}`);
+          await pollStatus(payload.job_id);
+        } catch (err) {
+          submitBtn.disabled = false;
+          showError(err.message || "Lỗi không xác định");
+        }
+      });
+    </script>
+  </body>
+</html>

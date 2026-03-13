@@ -28,7 +28,7 @@ class JSONExporter:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
     
-    def export_flat(self, data, filename=None):
+    def export_flat(self, data, filename=None, definitions=None):
         """
         Xuất dữ liệu dạng phẳng ra JSON
         
@@ -45,12 +45,17 @@ class JSONExporter:
         
         filepath = os.path.join(self.output_dir, filename)
         
+        metadata = {
+            'export_time': datetime.now().isoformat(),
+            'total_entries': len(data),
+            'format': 'flat'
+        }
+
+        if definitions:
+            metadata['definitions'] = definitions
+
         output = {
-            'metadata': {
-                'export_time': datetime.now().isoformat(),
-                'total_entries': len(data),
-                'format': 'flat'
-            },
+            'metadata': metadata,
             'data': data
         }
         
@@ -60,7 +65,7 @@ class JSONExporter:
         print(f"✓ Đã xuất dữ liệu phẳng ra: {filepath}")
         return filepath
     
-    def export_nested(self, nested_data, filename=None):
+    def export_nested(self, nested_data, filename=None, definitions=None):
         """
         Xuất dữ liệu dạng cây nested ra JSON
         
@@ -77,12 +82,17 @@ class JSONExporter:
         
         filepath = os.path.join(self.output_dir, filename)
         
+        metadata = {
+            'export_time': datetime.now().isoformat(),
+            'total_chapters': len(nested_data.get('chapters', [])),
+            'format': 'nested'
+        }
+
+        if definitions:
+            metadata['definitions'] = definitions
+
         output = {
-            'metadata': {
-                'export_time': datetime.now().isoformat(),
-                'total_chapters': len(nested_data.get('chapters', [])),
-                'format': 'nested'
-            },
+            'metadata': metadata,
             'structure': nested_data
         }
         
@@ -92,7 +102,7 @@ class JSONExporter:
         print(f"✓ Đã xuất dữ liệu nested ra: {filepath}")
         return filepath
     
-    def export_both(self, flat_data, nested_data, base_filename=None):
+    def export_both(self, flat_data, nested_data, base_filename=None, definitions=None):
         """
         Xuất cả hai dạng dữ liệu
         
@@ -112,7 +122,7 @@ class JSONExporter:
             flat_file = f'legal_data_flat_{timestamp}.json'
             nested_file = f'legal_data_nested_{timestamp}.json'
         
-        flat_path = self.export_flat(flat_data, flat_file)
-        nested_path = self.export_nested(nested_data, nested_file)
+        flat_path = self.export_flat(flat_data, flat_file, definitions=definitions)
+        nested_path = self.export_nested(nested_data, nested_file, definitions=definitions)
         
         return flat_path, nested_path

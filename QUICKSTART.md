@@ -25,6 +25,18 @@
 
 ## Ví dụ sử dụng
 
+### 0. Chạy giao diện Web App
+```bash
+uvicorn web.app:app --reload
+```
+
+Mở: `http://127.0.0.1:8000`
+
+Trên giao diện web bạn có thể:
+- Chọn file `.docx`
+- Chọn xuất `JSON` hoặc `Google Sheets`
+- Chọn mode `Tool` hoặc `Tool + AI`
+
 ### 1. Phân tích cơ bản (Chỉ JSON)
 ```bash
 python main.py docs/luat/69_2025_QH15_603983.docx --output-json
