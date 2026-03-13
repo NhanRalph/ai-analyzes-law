@@ -33,6 +33,7 @@ wheels/
 
 # Credentials
 credentials/credentials.json
+credentials/firebase-service-account.json
 
 # Output
 output/*.json

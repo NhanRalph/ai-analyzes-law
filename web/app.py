@@ -3,11 +3,12 @@ import uuid
 from pathlib import Path
 from typing import Dict
 
-from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import BackgroundTasks, Depends, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from web.auth import get_current_user, get_public_firebase_config
 from web.services import create_job, ensure_dirs, run_pipeline
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,9 +36,26 @@ def serve_index():
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/api/firebase-config")
+def firebase_config():
+    config = get_public_firebase_config()
+    if not config.get("apiKey") or not config.get("projectId"):
+        raise HTTPException(status_code=500, detail="Firebase web config chưa được thiết lập")
+    return config
+
+
+@app.get("/api/me")
+def me(current_user: dict = Depends(get_current_user)):
+    return {
+        "uid": current_user.get("uid"),
+        "email": current_user.get("email"),
+    }
+
+
 @app.post("/api/process")
 async def process_document(
     background_tasks: BackgroundTasks,
+    current_user: dict = Depends(get_current_user),
     input_file: UploadFile = File(...),
     output_json: bool = Form(True),
     output_sheets: bool = Form(False),
@@ -67,7 +85,7 @@ async def process_document(
     with open(temp_file_path, "wb") as destination:
         destination.write(await input_file.read())
 
-    JOBS[job_id] = create_job(job_id)
+    JOBS[job_id] = create_job(job_id, owner_uid=current_user.get("uid", ""))
 
     background_tasks.add_task(
         run_pipeline,
@@ -88,18 +106,22 @@ async def process_document(
 
 
 @app.get("/api/status/{job_id}")
-def get_status(job_id: str):
+def get_status(job_id: str, current_user: dict = Depends(get_current_user)):
     job = JOBS.get(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Không tìm thấy job")
+    if job.get("owner_uid") != current_user.get("uid"):
+        raise HTTPException(status_code=403, detail="Bạn không có quyền xem job này")
     return job
 
 
 @app.get("/api/download/{job_id}/{output_type}")
-def download_file(job_id: str, output_type: str):
+def download_file(job_id: str, output_type: str, current_user: dict = Depends(get_current_user)):
     job = JOBS.get(job_id)
     if not job:
         raise HTTPException(status_code=404, detail="Không tìm thấy job")
+    if job.get("owner_uid") != current_user.get("uid"):
+        raise HTTPException(status_code=403, detail="Bạn không có quyền tải file của job này")
 
     files = job.get("result", {}).get("files", {})
     file_path = files.get(output_type)

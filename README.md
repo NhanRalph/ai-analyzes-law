@@ -44,6 +44,7 @@ Sau khi chạy, mở trình duyệt tại: `http://127.0.0.1:8000`
 
 ### Tính năng trên Web UI
 
+- Đăng ký / đăng nhập user bằng Firebase Authentication
 - Upload file `.docx`
 - Chọn kiểu xuất: `JSON`, `Google Sheets`, hoặc cả hai
 - Chọn chế độ xử lý:
@@ -51,6 +52,30 @@ Sau khi chạy, mở trình duyệt tại: `http://127.0.0.1:8000`
   - `Tool + AI`: tối ưu + phân loại bằng Gemini
 - Theo dõi trạng thái xử lý theo thời gian thực
 - Tải JSON flat/nested hoặc mở link Google Sheets sau khi hoàn tất
+
+### Cấu hình Firebase Authentication
+
+Backend cần Firebase Admin credentials:
+
+- Cách 1: đặt file tại `credentials/firebase-service-account.json`
+- Cách 2: dùng biến môi trường `FIREBASE_SERVICE_ACCOUNT_JSON` (JSON string)
+
+Frontend cần Firebase Web config qua biến môi trường:
+
+```bash
+FIREBASE_API_KEY=...
+FIREBASE_AUTH_DOMAIN=...
+FIREBASE_PROJECT_ID=...
+FIREBASE_STORAGE_BUCKET=...
+FIREBASE_MESSAGING_SENDER_ID=...
+FIREBASE_APP_ID=...
+```
+
+Tuỳ chọn thêm:
+
+```bash
+FIREBASE_SERVICE_ACCOUNT_PATH=credentials/firebase-service-account.json
+```
 
 ### Chỉ xuất JSON
 

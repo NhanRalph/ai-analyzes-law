@@ -88,69 +88,127 @@
       a {
         color: #1d4ed8;
       }
+      .auth-box {
+        margin-bottom: 20px;
+        padding: 14px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+      }
+      .auth-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .auth-actions button {
+        margin-top: 0;
+        padding: 8px 12px;
+      }
+      .btn-secondary {
+        background: #374151;
+      }
+      .top-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .top-row button {
+        margin-top: 0;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>AI-Law Web App</h1>
-      <p>Upload file luật .docx, chọn chế độ xử lý và định dạng xuất dữ liệu.</p>
+      <div id="authScreen">
+        <h1>AI-Law Web App</h1>
+        <p>Đăng nhập hoặc đăng ký để sử dụng dịch vụ phân tích luật.</p>
 
-      <form id="processForm">
-        <div class="grid">
-          <div class="full">
-            <label for="input_file">File .docx</label>
-            <input id="input_file" name="input_file" type="file" accept=".docx" required />
+        <div class="auth-box">
+          <label for="auth_email">Email</label>
+          <input id="auth_email" type="text" placeholder="your@email.com" />
+          <label for="auth_password" style="margin-top: 8px">Mật khẩu</label>
+          <input id="auth_password" type="password" placeholder="Mật khẩu" />
+          <div class="auth-actions">
+            <button id="registerBtn" type="button" class="btn-secondary">Đăng ký</button>
+            <button id="loginBtn" type="button">Đăng nhập</button>
           </div>
+          <div id="authStatus" style="margin-top: 10px; font-size: 14px; color: #111827"></div>
+        </div>
+      </div>
 
-          <div class="full">
-            <label>Xuất dữ liệu</label>
-            <div class="checks">
-              <label><input type="checkbox" id="output_json" name="output_json" checked /> JSON</label>
-              <label><input type="checkbox" id="output_sheets" name="output_sheets" /> Google Sheets</label>
+      <div id="serviceScreen" style="display: none">
+        <div class="top-row">
+          <div>
+            <h1 style="margin: 0">AI-Law Service</h1>
+            <p id="serviceUser" style="margin: 6px 0 0 0"></p>
+          </div>
+          <button id="logoutBtn" type="button" class="btn-secondary">Đăng xuất</button>
+        </div>
+        <p>Upload file luật .docx, chọn chế độ xử lý và định dạng xuất dữ liệu.</p>
+
+        <form id="processForm">
+          <div class="grid">
+            <div class="full">
+              <label for="input_file">File .docx</label>
+              <input id="input_file" name="input_file" type="file" accept=".docx" required />
+            </div>
+
+            <div class="full">
+              <label>Xuất dữ liệu</label>
+              <div class="checks">
+                <label><input type="checkbox" id="output_json" name="output_json" checked /> JSON</label>
+                <label><input type="checkbox" id="output_sheets" name="output_sheets" /> Google Sheets</label>
+              </div>
+            </div>
+
+            <div>
+              <label for="mode">Chế độ xử lý</label>
+              <select id="mode" name="mode">
+                <option value="tool">Tool (tách ý thông thường)</option>
+                <option value="tool_ai">Tool + AI (tối ưu + phân loại)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="gemini_api_key">Gemini API Key (tuỳ chọn)</label>
+              <input id="gemini_api_key" name="gemini_api_key" type="text" placeholder="Để trống để dùng .env" />
+            </div>
+
+            <div>
+              <label for="sheets_id">Google Sheets ID</label>
+              <input id="sheets_id" name="sheets_id" type="text" placeholder="Bắt buộc nếu chọn xuất Sheets" />
+            </div>
+
+            <div>
+              <label for="sheet_name">Tên Worksheet (tuỳ chọn)</label>
+              <input id="sheet_name" name="sheet_name" type="text" placeholder="VD: Luat 69/2025" />
+            </div>
+
+            <div>
+              <label for="credentials_path">Credentials Path</label>
+              <input id="credentials_path" name="credentials_path" type="text" value="credentials/credentials.json" />
+            </div>
+
+            <div>
+              <label>&nbsp;</label>
+              <label><input type="checkbox" id="no_clear" name="no_clear" /> Không xoá dữ liệu cũ trên Sheet</label>
             </div>
           </div>
 
-          <div>
-            <label for="mode">Chế độ xử lý</label>
-            <select id="mode" name="mode">
-              <option value="tool">Tool (tách ý thông thường)</option>
-              <option value="tool_ai">Tool + AI (tối ưu + phân loại)</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="gemini_api_key">Gemini API Key (tuỳ chọn)</label>
-            <input id="gemini_api_key" name="gemini_api_key" type="text" placeholder="Để trống để dùng .env" />
-          </div>
-
-          <div>
-            <label for="sheets_id">Google Sheets ID</label>
-            <input id="sheets_id" name="sheets_id" type="text" placeholder="Bắt buộc nếu chọn xuất Sheets" />
-          </div>
-
-          <div>
-            <label for="sheet_name">Tên Worksheet (tuỳ chọn)</label>
-            <input id="sheet_name" name="sheet_name" type="text" placeholder="VD: Luat 69/2025" />
-          </div>
-
-          <div>
-            <label for="credentials_path">Credentials Path</label>
-            <input id="credentials_path" name="credentials_path" type="text" value="credentials/credentials.json" />
-          </div>
-
-          <div>
-            <label>&nbsp;</label>
-            <label><input type="checkbox" id="no_clear" name="no_clear" /> Không xoá dữ liệu cũ trên Sheet</label>
-          </div>
-        </div>
-
-        <button id="submitBtn" type="submit">Bắt đầu xử lý</button>
-      </form>
+          <button id="submitBtn" type="submit">Bắt đầu xử lý</button>
+        </form>
+      </div>
 
       <div id="status" class="status" style="display: none"></div>
       <div id="result" class="result" style="display: none"></div>
       <div id="error" class="error" style="display: none"></div>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
 
     <script>
       const form = document.getElementById("processForm");
@@ -158,8 +216,19 @@
       const resultBox = document.getElementById("result");
       const errorBox = document.getElementById("error");
       const submitBtn = document.getElementById("submitBtn");
+      const authStatusBox = document.getElementById("authStatus");
+      const registerBtn = document.getElementById("registerBtn");
+      const loginBtn = document.getElementById("loginBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const authScreen = document.getElementById("authScreen");
+      const serviceScreen = document.getElementById("serviceScreen");
+      const serviceUser = document.getElementById("serviceUser");
+      const authEmailInput = document.getElementById("auth_email");
+      const authPasswordInput = document.getElementById("auth_password");
 
       let pollTimer = null;
+      let authToken = "";
+      let firebaseReady = false;
 
       function showStatus(message) {
         statusBox.style.display = "block";
@@ -178,10 +247,140 @@
         resultBox.innerHTML = "";
       }
 
+      function updateAuthStatus(message) {
+        authStatusBox.textContent = message;
+      }
+
+      function showAuthScreen() {
+        authScreen.style.display = "block";
+        serviceScreen.style.display = "none";
+        submitBtn.disabled = true;
+      }
+
+      function showServiceScreen(user) {
+        authScreen.style.display = "none";
+        serviceScreen.style.display = "block";
+        submitBtn.disabled = false;
+        serviceUser.textContent = `Đăng nhập: ${user?.email || user?.uid || "Unknown"}`;
+      }
+
+      function setFormEnabledByAuthState() {
+        submitBtn.disabled = !authToken;
+      }
+
+      async function forceLogoutToAuth(reason) {
+        try {
+          if (firebaseReady && firebase.auth().currentUser) {
+            await firebase.auth().signOut();
+          }
+        } catch (_) {}
+
+        authToken = "";
+        showAuthScreen();
+        setFormEnabledByAuthState();
+        if (reason) {
+          showError(reason);
+        }
+      }
+
+      async function authFetch(url, options = {}) {
+        if (!authToken) {
+          throw new Error("Bạn cần đăng nhập trước khi sử dụng API");
+        }
+
+        const headers = new Headers(options.headers || {});
+        headers.set("Authorization", `Bearer ${authToken}`);
+
+        let response = await fetch(url, { ...options, headers });
+
+        if (response.status === 401 || response.status === 403) {
+          try {
+            const user = firebase.auth().currentUser;
+            if (user) {
+              authToken = await user.getIdToken(true);
+              headers.set("Authorization", `Bearer ${authToken}`);
+              response = await fetch(url, { ...options, headers });
+            }
+          } catch (_) {}
+        }
+
+        if (response.status === 401 || response.status === 403) {
+          await forceLogoutToAuth("Phiên đăng nhập đã hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại.");
+        }
+
+        return response;
+      }
+
+      async function initFirebaseAuth() {
+        try {
+          const res = await fetch("/api/firebase-config");
+          const config = await res.json();
+          if (!res.ok) {
+            throw new Error(config.detail || "Không lấy được Firebase config");
+          }
+
+          firebase.initializeApp(config);
+          firebaseReady = true;
+
+          firebase.auth().onAuthStateChanged(async (user) => {
+            if (user) {
+              authToken = await user.getIdToken(true);
+              updateAuthStatus(`Đã đăng nhập: ${user.email || user.uid}`);
+              showServiceScreen(user);
+            } else {
+              authToken = "";
+              updateAuthStatus("Chưa đăng nhập");
+              showAuthScreen();
+            }
+            setFormEnabledByAuthState();
+          });
+        } catch (err) {
+          updateAuthStatus(`Lỗi Firebase config: ${err.message}`);
+          showAuthScreen();
+          setFormEnabledByAuthState();
+        }
+      }
+
+      registerBtn.addEventListener("click", async () => {
+        if (!firebaseReady) {
+          showError("Firebase chưa sẵn sàng");
+          return;
+        }
+
+        const email = authEmailInput.value.trim();
+        const password = authPasswordInput.value;
+        try {
+          await firebase.auth().createUserWithEmailAndPassword(email, password);
+          updateAuthStatus("Đăng ký thành công");
+        } catch (err) {
+          showError(err.message || "Đăng ký thất bại");
+        }
+      });
+
+      loginBtn.addEventListener("click", async () => {
+        if (!firebaseReady) {
+          showError("Firebase chưa sẵn sàng");
+          return;
+        }
+
+        const email = authEmailInput.value.trim();
+        const password = authPasswordInput.value;
+        try {
+          await firebase.auth().signInWithEmailAndPassword(email, password);
+          updateAuthStatus("Đăng nhập thành công");
+        } catch (err) {
+          showError(err.message || "Đăng nhập thất bại");
+        }
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        await forceLogoutToAuth("");
+      });
+
       async function pollStatus(jobId) {
         pollTimer = setInterval(async () => {
           try {
-            const res = await fetch(`/api/status/${jobId}`);
+            const res = await authFetch(`/api/status/${jobId}`);
             if (!res.ok) throw new Error("Không lấy được trạng thái job");
             const job = await res.json();
 
@@ -197,10 +396,10 @@
 
               const links = [];
               if (files.flat) {
-                links.push(`<li><a href="/api/download/${jobId}/flat" target="_blank">Tải JSON Flat</a></li>`);
+                links.push(`<li><button type="button" onclick="downloadWithAuth('${jobId}','flat')">Tải JSON Flat</button></li>`);
               }
               if (files.nested) {
-                links.push(`<li><a href="/api/download/${jobId}/nested" target="_blank">Tải JSON Nested</a></li>`);
+                links.push(`<li><button type="button" onclick="downloadWithAuth('${jobId}','nested')">Tải JSON Nested</button></li>`);
               }
               if (sheets.url) {
                 links.push(`<li><a href="${sheets.url}" target="_blank">Mở Google Sheets</a></li>`);
@@ -232,6 +431,11 @@
         event.preventDefault();
         resetMessages();
 
+        if (!authToken) {
+          showError("Bạn cần đăng nhập trước khi xử lý file");
+          return;
+        }
+
         const outputJson = document.getElementById("output_json").checked;
         const outputSheets = document.getElementById("output_sheets").checked;
 
@@ -261,7 +465,7 @@
         try {
           submitBtn.disabled = true;
           showStatus("Đang tạo job...");
-          const res = await fetch("/api/process", {
+          const res = await authFetch("/api/process", {
             method: "POST",
             body: formData,
           });
@@ -276,6 +480,33 @@
           showError(err.message || "Lỗi không xác định");
         }
       });
+
+      async function downloadWithAuth(jobId, outputType) {
+        try {
+          const res = await authFetch(`/api/download/${jobId}/${outputType}`);
+          if (!res.ok) {
+            const payload = await res.json().catch(() => ({}));
+            throw new Error(payload.detail || "Tải file thất bại");
+          }
+
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${outputType}_${jobId}.json`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.URL.revokeObjectURL(url);
+        } catch (err) {
+          showError(err.message || "Lỗi khi tải file");
+        }
+      }
+
+      window.downloadWithAuth = downloadWithAuth;
+
+      showAuthScreen();
+      initFirebaseAuth();
     </script>
   </body>
 </html>

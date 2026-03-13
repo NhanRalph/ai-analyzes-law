@@ -33,9 +33,22 @@ uvicorn web.app:app --reload
 Mở: `http://127.0.0.1:8000`
 
 Trên giao diện web bạn có thể:
+- Đăng ký / đăng nhập bằng Firebase Auth (email/password)
 - Chọn file `.docx`
 - Chọn xuất `JSON` hoặc `Google Sheets`
 - Chọn mode `Tool` hoặc `Tool + AI`
+
+Biến môi trường tối thiểu cho Firebase Web/Auth:
+
+```bash
+FIREBASE_API_KEY=...
+FIREBASE_AUTH_DOMAIN=...
+FIREBASE_PROJECT_ID=...
+FIREBASE_STORAGE_BUCKET=...
+FIREBASE_MESSAGING_SENDER_ID=...
+FIREBASE_APP_ID=...
+FIREBASE_SERVICE_ACCOUNT_PATH=credentials/firebase-service-account.json
+```
 
 ### 1. Phân tích cơ bản (Chỉ JSON)
 ```bash

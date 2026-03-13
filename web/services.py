@@ -16,9 +16,10 @@ def ensure_dirs() -> None:
     os.makedirs("output/web", exist_ok=True)
 
 
-def create_job(job_id: str) -> Dict[str, Any]:
+def create_job(job_id: str, owner_uid: str) -> Dict[str, Any]:
     return {
         "job_id": job_id,
+        "owner_uid": owner_uid,
         "status": "queued",
         "message": "Đang chờ xử lý",
         "created_at": datetime.now().isoformat(),
