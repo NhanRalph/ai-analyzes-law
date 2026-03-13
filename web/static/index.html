@@ -288,7 +288,7 @@
     <div class="container">
       <div id="authScreen">
         <h1>AI-Law Web App</h1>
-        <p>Đăng nhập hoặc đăng ký để sử dụng dịch vụ phân tích luật.</p>
+        <p>Đăng nhập để sử dụng dịch vụ phân tích luật.</p>
 
         <div class="auth-box">
           <label for="auth_email">Email</label>
@@ -296,7 +296,7 @@
           <label for="auth_password" style="margin-top: 8px">Mật khẩu</label>
           <input id="auth_password" type="password" placeholder="Mật khẩu" autocomplete="current-password" />
           <div class="auth-actions">
-            <button id="registerBtn" type="button" class="btn btn-secondary">Đăng ký</button>
+            <!-- <button id="registerBtn" type="button" class="btn btn-secondary">Đăng ký</button> -->
             <button id="loginBtn" type="button" class="btn">Đăng nhập</button>
           </div>
           <div id="authStatus" style="margin-top: 10px; font-size: 14px; color: #111827"></div>
@@ -307,6 +307,7 @@
         <div class="top-row">
           <div>
             <h1 style="margin: 0">AI-Law Service</h1>
+            <h4 style="margin: 0">*Hiện chỉ hỗ trợ xử lý file .docx liên quan tới "Luật Hoá Chất"</h4>
             <p id="serviceUser" style="margin: 6px 0 0 0"></p>
           </div>
           <button id="logoutBtn" type="button" class="btn btn-secondary">Đăng xuất</button>
@@ -393,7 +394,7 @@
       const errorText = document.getElementById("errorText");
       const submitBtn = document.getElementById("submitBtn");
       const authStatusBox = document.getElementById("authStatus");
-      const registerBtn = document.getElementById("registerBtn");
+      // const registerBtn = document.getElementById("registerBtn");
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
       const statusCloseBtn = document.getElementById("statusClose");
@@ -545,23 +546,23 @@
         }
       }
 
-      registerBtn.addEventListener("click", async () => {
-        if (!firebaseReady) {
-          showError("Firebase chưa sẵn sàng");
-          return;
-        }
+      // registerBtn.addEventListener("click", async () => {
+      //   if (!firebaseReady) {
+      //     showError("Firebase chưa sẵn sàng");
+      //     return;
+      //   }
 
-        const email = authEmailInput.value.trim();
-        const password = authPasswordInput.value;
-        try {
-          clearError();
-          await firebase.auth().createUserWithEmailAndPassword(email, password);
-          updateAuthStatus("Đăng ký thành công");
-          clearError();
-        } catch (err) {
-          showError(err.message || "Đăng ký thất bại");
-        }
-      });
+      //   const email = authEmailInput.value.trim();
+      //   const password = authPasswordInput.value;
+      //   try {
+      //     clearError();
+      //     await firebase.auth().createUserWithEmailAndPassword(email, password);
+      //     updateAuthStatus("Đăng ký thành công");
+      //     clearError();
+      //   } catch (err) {
+      //     showError(err.message || "Đăng ký thất bại");
+      //   }
+      // });
 
       loginBtn.addEventListener("click", async () => {
         if (!firebaseReady) {
