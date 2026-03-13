@@ -3,29 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:,">
     <title>AI-Law Web App</title>
     <style>
+      :root {
+        --bg: #f5f6f8;
+        --surface: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --border-strong: #d1d5db;
+
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --primary-soft: #eff6ff;
+
+        --secondary: #374151;
+        --secondary-hover: #111827;
+
+        --success-soft: #ecfdf5;
+        --success-border: #a7f3d0;
+
+        --danger-soft: #fef2f2;
+        --danger-border: #fecaca;
+        --danger-text: #991b1b;
+
+        --shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+        --radius: 12px;
+        --radius-sm: 10px;
+      }
+
       body {
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        background: #f5f6f8;
-        color: #1f2937;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.45;
       }
       .container {
         max-width: 860px;
         margin: 40px auto;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-        padding: 24px;
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 28px;
+        border: 1px solid var(--border);
       }
       h1 {
-        margin-top: 0;
+        margin: 0;
+        font-size: 26px;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 10px 0 0 0;
+        color: var(--muted);
       }
       .grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px;
+        margin-top: 14px;
       }
       .full {
         grid-column: 1 / -1;
@@ -36,13 +73,30 @@
         margin-bottom: 6px;
       }
       input[type="text"],
+      input[type="email"],
+      input[type="password"],
       select,
       input[type="file"] {
         width: 100%;
         padding: 10px;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-sm);
         box-sizing: border-box;
+        background: #fff;
+        color: var(--text);
+      }
+      input[type="file"] {
+        padding: 9px;
+        background: #fff;
+      }
+      input::placeholder {
+        color: #9ca3af;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
       }
       .checks {
         display: flex;
@@ -52,48 +106,102 @@
       }
       .checks label {
         font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
       }
       button {
-        margin-top: 20px;
-        background: #2563eb;
+        background: var(--primary);
         color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
         cursor: pointer;
+        font-weight: 600;
+      }
+      button:hover {
+        background: var(--primary-hover);
+      }
+      button:active {
+        transform: translateY(0.5px);
+      }
+      button:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
       }
       button:disabled {
         background: #93c5fd;
         cursor: not-allowed;
+        transform: none;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       }
       .status {
         margin-top: 20px;
-        padding: 14px;
-        border-radius: 8px;
-        background: #eff6ff;
+        padding: 14px 14px;
+        border-radius: var(--radius-sm);
+        background: var(--primary-soft);
+        border: 1px solid #bfdbfe;
+        border-left: 4px solid var(--primary);
+        color: #0f172a;
+        position: relative;
       }
       .result {
         margin-top: 16px;
-        background: #ecfdf5;
+        background: var(--success-soft);
         padding: 14px;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--success-border);
+        border-left: 4px solid #10b981;
+        position: relative;
       }
       .error {
         margin-top: 16px;
-        background: #fef2f2;
-        color: #991b1b;
+        background: var(--danger-soft);
+        color: var(--danger-text);
         padding: 14px;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--danger-border);
+        border-left: 4px solid #ef4444;
+        position: relative;
+      }
+      .msg-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        margin: 0;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        color: rgba(17, 24, 39, 0.7);
+        font-weight: 700;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .msg-close:hover {
+        background: rgba(255, 255, 255, 0.9);
+        color: rgba(17, 24, 39, 0.92);
+      }
+      .msg-close:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
       }
       a {
-        color: #1d4ed8;
+        color: var(--primary-hover);
       }
       .auth-box {
         margin-bottom: 20px;
         padding: 14px;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
         background: #f8fafc;
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border);
       }
       .auth-actions {
         display: flex;
@@ -106,17 +214,73 @@
         padding: 8px 12px;
       }
       .btn-secondary {
-        background: #374151;
+        background: var(--secondary);
+      }
+      .btn-secondary:hover {
+        background: var(--secondary-hover);
       }
       .top-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
       .top-row button {
         margin-top: 0;
+      }
+      .primary-action {
+        margin-top: 18px;
+        width: 100%;
+      }
+      .sheets-note {
+        margin: 8px 0 0 0;
+        font-size: 12px;
+        color: #92400e;
+        line-height: 1.4;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        border-radius: var(--radius-sm);
+        padding: 8px 10px;
+      }
+      .copy-email-btn {
+        margin-top: 0;
+        margin-left: 4px;
+        background: #7c2d12;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .copy-email-btn:hover {
+        background: #9a3412;
+      }
+      .result ul {
+        margin: 10px 0 0 0;
+        padding-left: 18px;
+      }
+      .result li {
+        margin: 8px 0;
+      }
+      .result li button {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 720px) {
+        .container {
+          margin: 16px;
+          padding: 18px;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .top-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .primary-action {
+          margin-top: 14px;
+        }
       }
     </style>
   </head>
@@ -128,12 +292,12 @@
 
         <div class="auth-box">
           <label for="auth_email">Email</label>
-          <input id="auth_email" type="text" placeholder="your@email.com" />
+          <input id="auth_email" type="email" placeholder="your@email.com" autocomplete="email" />
           <label for="auth_password" style="margin-top: 8px">Mật khẩu</label>
-          <input id="auth_password" type="password" placeholder="Mật khẩu" />
+          <input id="auth_password" type="password" placeholder="Mật khẩu" autocomplete="current-password" />
           <div class="auth-actions">
-            <button id="registerBtn" type="button" class="btn-secondary">Đăng ký</button>
-            <button id="loginBtn" type="button">Đăng nhập</button>
+            <button id="registerBtn" type="button" class="btn btn-secondary">Đăng ký</button>
+            <button id="loginBtn" type="button" class="btn">Đăng nhập</button>
           </div>
           <div id="authStatus" style="margin-top: 10px; font-size: 14px; color: #111827"></div>
         </div>
@@ -145,7 +309,7 @@
             <h1 style="margin: 0">AI-Law Service</h1>
             <p id="serviceUser" style="margin: 6px 0 0 0"></p>
           </div>
-          <button id="logoutBtn" type="button" class="btn-secondary">Đăng xuất</button>
+          <button id="logoutBtn" type="button" class="btn btn-secondary">Đăng xuất</button>
         </div>
         <p>Upload file luật .docx, chọn chế độ xử lý và định dạng xuất dữ liệu.</p>
 
@@ -180,6 +344,11 @@
             <div>
               <label for="sheets_id">Google Sheets ID</label>
               <input id="sheets_id" name="sheets_id" type="text" placeholder="Bắt buộc nếu chọn xuất Sheets" />
+              <p class="sheets-note">
+                Bắt buộc nhập Google Sheets ID + cấp quyền Editor cho mail:
+                <strong id="serviceAccountEmail">crawl-data@round-water-441416-e9.iam.gserviceaccount.com</strong>
+                <button id="copyServiceEmailBtn" type="button" class="btn copy-email-btn">Copy</button>
+              </p>
             </div>
 
             <div>
@@ -188,23 +357,27 @@
             </div>
 
             <div>
-              <label for="credentials_path">Credentials Path</label>
-              <input id="credentials_path" name="credentials_path" type="text" value="credentials/credentials.json" />
-            </div>
-
-            <div>
               <label>&nbsp;</label>
               <label><input type="checkbox" id="no_clear" name="no_clear" /> Không xoá dữ liệu cũ trên Sheet</label>
             </div>
           </div>
 
-          <button id="submitBtn" type="submit">Bắt đầu xử lý</button>
+          <button id="submitBtn" type="submit" class="btn primary-action">Bắt đầu xử lý</button>
         </form>
       </div>
 
-      <div id="status" class="status" style="display: none"></div>
-      <div id="result" class="result" style="display: none"></div>
-      <div id="error" class="error" style="display: none"></div>
+      <div id="status" class="status" style="display: none">
+        <button id="statusClose" type="button" class="msg-close" aria-label="Ẩn thông báo">×</button>
+        <div id="statusText"></div>
+      </div>
+      <div id="result" class="result" style="display: none">
+        <button id="resultClose" type="button" class="msg-close" aria-label="Ẩn kết quả">×</button>
+        <div id="resultText"></div>
+      </div>
+      <div id="error" class="error" style="display: none">
+        <button id="errorClose" type="button" class="msg-close" aria-label="Ẩn lỗi">×</button>
+        <div id="errorText"></div>
+      </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
@@ -213,18 +386,26 @@
     <script>
       const form = document.getElementById("processForm");
       const statusBox = document.getElementById("status");
+      const statusText = document.getElementById("statusText");
       const resultBox = document.getElementById("result");
+      const resultText = document.getElementById("resultText");
       const errorBox = document.getElementById("error");
+      const errorText = document.getElementById("errorText");
       const submitBtn = document.getElementById("submitBtn");
       const authStatusBox = document.getElementById("authStatus");
       const registerBtn = document.getElementById("registerBtn");
       const loginBtn = document.getElementById("loginBtn");
       const logoutBtn = document.getElementById("logoutBtn");
+      const statusCloseBtn = document.getElementById("statusClose");
+      const resultCloseBtn = document.getElementById("resultClose");
+      const errorCloseBtn = document.getElementById("errorClose");
       const authScreen = document.getElementById("authScreen");
       const serviceScreen = document.getElementById("serviceScreen");
       const serviceUser = document.getElementById("serviceUser");
       const authEmailInput = document.getElementById("auth_email");
       const authPasswordInput = document.getElementById("auth_password");
+      const serviceAccountEmail = document.getElementById("serviceAccountEmail");
+      const copyServiceEmailBtn = document.getElementById("copyServiceEmailBtn");
 
       let pollTimer = null;
       let authToken = "";
@@ -232,19 +413,33 @@
 
       function showStatus(message) {
         statusBox.style.display = "block";
-        statusBox.textContent = message;
+        statusText.textContent = message;
+      }
+
+      function clearStatus() {
+        statusBox.style.display = "none";
+        statusText.textContent = "";
+      }
+
+      function clearResult() {
+        resultBox.style.display = "none";
+        resultText.innerHTML = "";
+      }
+
+      function clearError() {
+        errorBox.style.display = "none";
+        errorText.textContent = "";
       }
 
       function showError(message) {
         errorBox.style.display = "block";
-        errorBox.textContent = message;
+        errorText.textContent = message;
       }
 
       function resetMessages() {
-        statusBox.style.display = "none";
-        resultBox.style.display = "none";
-        errorBox.style.display = "none";
-        resultBox.innerHTML = "";
+        clearStatus();
+        clearResult();
+        clearError();
       }
 
       function updateAuthStatus(message) {
@@ -255,6 +450,7 @@
         authScreen.style.display = "block";
         serviceScreen.style.display = "none";
         submitBtn.disabled = true;
+        resetMessages();
       }
 
       function showServiceScreen(user) {
@@ -262,6 +458,7 @@
         serviceScreen.style.display = "block";
         submitBtn.disabled = false;
         serviceUser.textContent = `Đăng nhập: ${user?.email || user?.uid || "Unknown"}`;
+        resetMessages();
       }
 
       function setFormEnabledByAuthState() {
@@ -269,6 +466,11 @@
       }
 
       async function forceLogoutToAuth(reason) {
+        if (pollTimer) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+        }
+
         try {
           if (firebaseReady && firebase.auth().currentUser) {
             await firebase.auth().signOut();
@@ -276,6 +478,8 @@
         } catch (_) {}
 
         authToken = "";
+        serviceUser.textContent = "";
+        updateAuthStatus("Chưa đăng nhập");
         showAuthScreen();
         setFormEnabledByAuthState();
         if (reason) {
@@ -350,8 +554,10 @@
         const email = authEmailInput.value.trim();
         const password = authPasswordInput.value;
         try {
+          clearError();
           await firebase.auth().createUserWithEmailAndPassword(email, password);
           updateAuthStatus("Đăng ký thành công");
+          clearError();
         } catch (err) {
           showError(err.message || "Đăng ký thất bại");
         }
@@ -366,21 +572,78 @@
         const email = authEmailInput.value.trim();
         const password = authPasswordInput.value;
         try {
+          clearError();
           await firebase.auth().signInWithEmailAndPassword(email, password);
           updateAuthStatus("Đăng nhập thành công");
+          clearError();
         } catch (err) {
           showError(err.message || "Đăng nhập thất bại");
         }
       });
 
       logoutBtn.addEventListener("click", async () => {
+        resetMessages();
         await forceLogoutToAuth("");
       });
 
+      copyServiceEmailBtn.addEventListener("click", async () => {
+        try {
+          clearError();
+          const email = serviceAccountEmail.textContent.trim();
+          await navigator.clipboard.writeText(email);
+          copyServiceEmailBtn.textContent = "Đã copy";
+          setTimeout(() => {
+            copyServiceEmailBtn.textContent = "Copy";
+          }, 1200);
+        } catch (_) {
+          showError("Không thể copy email. Vui lòng copy thủ công.");
+        }
+      });
+
+      function attachClearErrorOnUserInput() {
+        const elements = [
+          authEmailInput,
+          authPasswordInput,
+          document.getElementById("input_file"),
+          document.getElementById("output_json"),
+          document.getElementById("output_sheets"),
+          document.getElementById("mode"),
+          document.getElementById("gemini_api_key"),
+          document.getElementById("sheets_id"),
+          document.getElementById("sheet_name"),
+          document.getElementById("no_clear"),
+        ].filter(Boolean);
+
+        for (const el of elements) {
+          el.addEventListener("input", clearError);
+          el.addEventListener("change", clearError);
+        }
+      }
+
+      statusCloseBtn?.addEventListener("click", clearStatus);
+      resultCloseBtn?.addEventListener("click", clearResult);
+      errorCloseBtn?.addEventListener("click", clearError);
+
       async function pollStatus(jobId) {
+        if (pollTimer) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+        }
+
         pollTimer = setInterval(async () => {
           try {
+            if (!authToken) {
+              clearInterval(pollTimer);
+              pollTimer = null;
+              return;
+            }
+
             const res = await authFetch(`/api/status/${jobId}`);
+            if (!authToken) {
+              clearInterval(pollTimer);
+              pollTimer = null;
+              return;
+            }
             if (!res.ok) throw new Error("Không lấy được trạng thái job");
             const job = await res.json();
 
@@ -388,6 +651,7 @@
 
             if (job.status === "done") {
               clearInterval(pollTimer);
+              pollTimer = null;
               submitBtn.disabled = false;
 
               const summary = job.result?.summary || {};
@@ -406,7 +670,7 @@
               }
 
               resultBox.style.display = "block";
-              resultBox.innerHTML = `
+              resultText.innerHTML = `
                 <strong>Hoàn thành</strong><br/>
                 Tổng dòng: ${summary.total_entries || 0} | Chương: ${summary.chapters || 0} | Mục: ${summary.sections || 0} | Điều: ${summary.articles || 0}<br/>
                 Khoản: ${summary.clauses || 0} | Điểm: ${summary.points || 0} | AI: ${summary.ai_classified || 0}<br/>
@@ -416,13 +680,17 @@
 
             if (job.status === "error") {
               clearInterval(pollTimer);
+              pollTimer = null;
               submitBtn.disabled = false;
               showError(job.error?.message || "Có lỗi xảy ra");
             }
           } catch (err) {
             clearInterval(pollTimer);
+            pollTimer = null;
             submitBtn.disabled = false;
-            showError(err.message || "Lỗi không xác định");
+            if (authToken) {
+              showError(err.message || "Lỗi không xác định");
+            }
           }
         }, 2000);
       }
@@ -430,6 +698,11 @@
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
         resetMessages();
+
+        if (pollTimer) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+        }
 
         if (!authToken) {
           showError("Bạn cần đăng nhập trước khi xử lý file");
@@ -458,7 +731,6 @@
         formData.append("mode", document.getElementById("mode").value);
         formData.append("sheets_id", document.getElementById("sheets_id").value);
         formData.append("sheet_name", document.getElementById("sheet_name").value);
-        formData.append("credentials_path", document.getElementById("credentials_path").value);
         formData.append("no_clear", document.getElementById("no_clear").checked);
         formData.append("gemini_api_key", document.getElementById("gemini_api_key").value);
 
@@ -506,6 +778,7 @@
       window.downloadWithAuth = downloadWithAuth;
 
       showAuthScreen();
+      attachClearErrorOnUserInput();
       initFirebaseAuth();
     </script>
   </body>

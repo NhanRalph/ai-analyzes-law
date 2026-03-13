@@ -175,7 +175,7 @@ def main():
     # Bước 2: Parse dữ liệu
     print("[2/4] Phân tích cấu trúc văn bản...")
     parser = LegalDocumentParser()
-    data = parser.parse(paragraphs)
+    data = parser.parse(paragraphs, source_name=args.input_file)
     
     if not data:
         print("✗ Không parse được dữ liệu")

@@ -37,7 +37,7 @@ class LegalDocumentParser:
         self.clause_has_colon = False
         self.pending_content = []
     
-    def parse(self, paragraphs):
+    def parse(self, paragraphs, source_name=None):
         """
         Parse danh sách paragraphs thành cấu trúc dữ liệu
         
@@ -52,7 +52,7 @@ class LegalDocumentParser:
         self.reset_state()
         
         # Trích xuất metadata
-        self.metadata = self.patterns.extract_doc_metadata(paragraphs)
+        self.metadata = self.patterns.extract_doc_metadata(paragraphs, source_name=source_name)
         
         for i, para in enumerate(paragraphs):
             self._process_paragraph(para, i)

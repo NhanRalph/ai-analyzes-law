@@ -82,7 +82,7 @@ def run_pipeline(
 
         _set_job_status(jobs, job_id, "running", "Đang phân tích cấu trúc văn bản")
         parser = LegalDocumentParser()
-        data = parser.parse(paragraphs)
+        data = parser.parse(paragraphs, source_name=input_file_path)
 
         if not data:
             raise ValueError("Không parse được dữ liệu")

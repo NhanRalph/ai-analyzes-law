@@ -19,7 +19,7 @@ class LegalPatterns:
     ARTICLE_PATTERN = r'^\s*Đi[ềe]u\s+(\d+)\s*\.\s*(.*?)$'
     
     # Pattern cho Số hiệu văn bản (Ví dụ: "Luật số: 69/2025/QH15")
-    DOC_NUMBER_PATTERN = r'^\s*Lu[ậa]t\s+s[ốo]:\s*([\w/\-]+)'
+    DOC_NUMBER_PATTERN = r'\b(?:LU[ẬA]T\s*S[ỐO]|S[ỐO](?:\s*HI[ỆE]U)?)\s*:?\s*([0-9]{1,4}\s*/\s*[0-9]{2,4}\s*/\s*[A-Z0-9\-]{2,20})\b'
     
     # Pattern cho Ngày ban hành (Ví dụ: "ngày 14 tháng 6 năm 2025")
     DOC_DATE_PATTERN = r' ngày (\d{1,2}) tháng (\d{1,2}) năm (\d{4})'
@@ -166,7 +166,7 @@ class LegalPatterns:
         return False, None, None
     
     @staticmethod
-    def extract_doc_metadata(paragraphs):
+    def extract_doc_metadata(paragraphs, source_name=None):
         """
         Trích xuất thông tin văn bản (Số hiệu, Ngày, Tiêu đề) từ những dòng đầu tiên
         
@@ -183,38 +183,76 @@ class LegalPatterns:
         
         if not paragraphs:
             return metadata
+
+        def normalize_doc_number(number_text):
+            """
+            Chuẩn hóa số hiệu văn bản (xóa khoảng trắng thừa quanh '/')
+            Ví dụ: '69 / 25 / qh15' -> '69/25/QH15'
+            """
+            compact = re.sub(r'\s*/\s*', '/', number_text.strip())
+            compact = re.sub(r'\s+', '', compact)
+            return compact.upper()
             
         raw_number = ""
         doc_title = ""
         title_lines = []
         date_line = ""
         
-        # 1. Tìm Số hiệu và Ngày (anchor)
+        # 1. Tìm Số hiệu theo nhãn ở phần đầu văn bản
         for i, para in enumerate(paragraphs[:25]):
             p = para.strip()
             if not p: continue
             
             clean_p = re.sub(r'\s+', ' ', p)
+            upper_p = clean_p.upper()
             
-            # Tìm Số hiệu (pattern: [số]/[năm]/[cơ quan])
+            # Tìm Số hiệu theo nhãn "Luật số" hoặc "Số" trước
             if not raw_number:
-                # Tìm chuỗi có dạng digit/digit/alpha
-                num_match = re.search(r'(\d+[\s/]+\d{4}[\s/]+[\w\-]+)', clean_p)
+                num_match = re.search(LegalPatterns.DOC_NUMBER_PATTERN, upper_p, re.IGNORECASE)
                 if num_match:
-                    raw_number = re.sub(r'\s+', '', num_match.group(1)).upper()
+                    raw_number = normalize_doc_number(num_match.group(1))
                 else:
-                    # Fallback tìm từ "Số:" hoặc "Số hiệu:"
-                    num_match = re.search(r'(?:S[ốo]|Số hiệu)\s*:?\s*([\w/\.\-]+)', clean_p, re.IGNORECASE)
-                    if num_match:
-                        raw_number = num_match.group(1).strip().upper()
+                    # Fallback: tìm token giống số hiệu văn bản bất kỳ trên dòng
+                    generic_candidates = re.findall(
+                        r'\b\d{1,4}\s*/\s*\d{2,4}\s*/\s*[A-Z0-9\-]{2,20}\b',
+                        upper_p
+                    )
+                    if generic_candidates:
+                        raw_number = normalize_doc_number(generic_candidates[0])
             
-            # Tìm Ngày
-            if metadata['ngay_ban_hanh'] == "Chưa xác định":
-                date_match = re.search(r'ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})', clean_p, re.IGNORECASE)
-                if date_match:
-                    day, month, year = date_match.groups()
-                    metadata['ngay_ban_hanh'] = f"{day.zfill(2)}/{month.zfill(2)}/{year}"
-                    date_line = p
+        # 1.1 Fallback số hiệu từ tên file (ví dụ: 69_2025_QH15.docx -> 69/25/QH15)
+        if not raw_number and source_name:
+            source_upper = source_name.upper()
+            filename_match = re.search(r'(\d{1,4})[_\-](\d{2,4})[_\-]([A-Z]{1,6}\d{1,4})', source_upper)
+            if filename_match:
+                number_part, year_part, agency_part = filename_match.groups()
+                if len(year_part) == 4:
+                    year_part = year_part[-2:]
+                raw_number = f"{number_part}/{year_part}/{agency_part}"
+
+        # 1.2 Tìm Ngày ban hành (ưu tiên dòng 'thông qua ngày ...')
+        date_candidates = []
+        for para in paragraphs:
+            p = para.strip()
+            if not p:
+                continue
+
+            clean_p = re.sub(r'\s+', ' ', p)
+            date_match = re.search(r'ngày\s+(\d{1,2})\s+tháng\s+(\d{1,2})\s+năm\s+(\d{4})', clean_p, re.IGNORECASE)
+            if date_match:
+                day, month, year = date_match.groups()
+                normalized_date = f"{day.zfill(2)}/{month.zfill(2)}/{year}"
+                date_candidates.append((clean_p, normalized_date))
+
+        for line_text, normalized_date in date_candidates:
+            if re.search(r'thông\s+qua\s+ngày', line_text, re.IGNORECASE):
+                metadata['ngay_ban_hanh'] = normalized_date
+                date_line = line_text
+                break
+
+        if metadata['ngay_ban_hanh'] == "Chưa xác định" and date_candidates:
+            metadata['ngay_ban_hanh'] = date_candidates[0][1]
+            date_line = date_candidates[0][0]
         
         # 2. Tìm Tiêu đề (dòng Uppercase sau header)
         skip_headers = [
