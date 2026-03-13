@@ -11,8 +11,27 @@ export default function Home() {
   const [selectedChuong, setSelectedChuong] = useState<string>('');
   const [selectedDieu, setSelectedDieu] = useState<string>('');
   const [selectedKhoan, setSelectedKhoan] = useState<string>('');
-  const [selectedHangMuc, setSelectedHangMuc] = useState<string>('');
-  const [selectedNhom, setSelectedNhom] = useState<string>('');
+  const [selectedHangMuc, setSelectedHangMuc] = useState<string[]>([]);
+  const [selectedNhom, setSelectedNhom] = useState<string[]>([]);
+  const [openFilter, setOpenFilter] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!(event.target as HTMLElement).closest('.multi-select-wrapper')) {
+        setOpenFilter(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const toggleFilter = (list: string[], setList: (v: string[]) => void, value: string) => {
+    if (list.includes(value)) {
+      setList(list.filter(v => v !== value));
+    } else {
+      setList([...list, value]);
+    }
+  };
 
   const entries: LegalEntry[] = legalData.data;
 
@@ -51,8 +70,11 @@ export default function Home() {
       if (selectedChuong && e.chuong !== selectedChuong) return false;
       if (selectedDieu && e.dieu !== selectedDieu) return false;
       if (selectedKhoan && e.khoan !== selectedKhoan) return false;
-      if (selectedHangMuc && e.ai_classification.ten_hang_muc !== selectedHangMuc) return false;
-      if (selectedNhom && e.ai_classification.nhom_hoa_chat !== selectedNhom) return false;
+      
+      // Multi-select filters
+      if (selectedHangMuc.length > 0 && !selectedHangMuc.includes(e.ai_classification.ten_hang_muc || '')) return false;
+      if (selectedNhom.length > 0 && !selectedNhom.includes(e.ai_classification.nhom_hoa_chat || '')) return false;
+      
       return true;
     });
   }, [entries, selectedChuong, selectedDieu, selectedKhoan, selectedHangMuc, selectedNhom]);
@@ -115,32 +137,66 @@ export default function Home() {
           </select>
         </div>
 
-        <div className="form-group">
+        <div className="form-group multi-select-wrapper">
           <label className="label">Hạng mục (AI)</label>
-          <select 
-            className="select" 
-            value={selectedHangMuc} 
-            onChange={(e) => setSelectedHangMuc(e.target.value)}
+          <button 
+            className={`select dropdown-toggle ${openFilter === 'hang_muc' ? 'active' : ''}`}
+            onClick={() => setOpenFilter(openFilter === 'hang_muc' ? null : 'hang_muc')}
+            type="button"
           >
-            <option value="">Tất cả</option>
-            {hangMucOptions.map(opt => (
-              <option key={opt} value={opt || ''}>{opt}</option>
-            ))}
-          </select>
+            {selectedHangMuc.length > 0 
+              ? `${selectedHangMuc.length} đã chọn` 
+              : 'Chọn hạng mục...'}
+            <span className="chevron">▼</span>
+          </button>
+          
+          {openFilter === 'hang_muc' && (
+            <div className="dropdown-content animate-in">
+              <div className="checkbox-group">
+                {hangMucOptions.map(opt => (
+                  <label key={opt || 'none'} className="checkbox-item">
+                    <input 
+                      type="checkbox" 
+                      checked={selectedHangMuc.includes(opt || '')}
+                      onChange={() => toggleFilter(selectedHangMuc, setSelectedHangMuc, opt || '')}
+                    />
+                    <span className="checkbox-label">{opt || 'Không xác định'}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="form-group">
+        <div className="form-group multi-select-wrapper">
           <label className="label">Nhóm hóa chất (AI)</label>
-          <select 
-            className="select" 
-            value={selectedNhom} 
-            onChange={(e) => setSelectedNhom(e.target.value)}
+          <button 
+            className={`select dropdown-toggle ${openFilter === 'nhom' ? 'active' : ''}`}
+            onClick={() => setOpenFilter(openFilter === 'nhom' ? null : 'nhom')}
+            type="button"
           >
-            <option value="">Tất cả</option>
-            {nhomOptions.map(opt => (
-              <option key={opt} value={opt || ''}>{opt}</option>
-            ))}
-          </select>
+            {selectedNhom.length > 0 
+              ? `${selectedNhom.length} đã chọn` 
+              : 'Chọn nhóm...'}
+            <span className="chevron">▼</span>
+          </button>
+
+          {openFilter === 'nhom' && (
+            <div className="dropdown-content animate-in">
+              <div className="checkbox-group">
+                {nhomOptions.map(opt => (
+                  <label key={opt || 'none'} className="checkbox-item">
+                    <input 
+                      type="checkbox" 
+                      checked={selectedNhom.includes(opt || '')}
+                      onChange={() => toggleFilter(selectedNhom, setSelectedNhom, opt || '')}
+                    />
+                    <span className="checkbox-label">{opt || 'Không xác định'}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
