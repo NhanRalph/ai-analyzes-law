@@ -119,7 +119,8 @@ def run_pipeline(
             _set_job_status(jobs, job_id, "running", "Đang xuất Google Sheets")
             if not sheets_id:
                 raise ValueError("Thiếu sheets_id cho chế độ xuất Google Sheets")
-            if not os.path.exists(credentials_path):
+            has_env_credentials = bool(os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON") or os.getenv("GG_SERVICE_ACCOUNT_JSON"))
+            if not os.path.exists(credentials_path) and not has_env_credentials:
                 raise ValueError(f"Không tìm thấy credentials: {credentials_path}")
 
             sheets_exporter = SheetsExporter(credentials_path, sheets_id)

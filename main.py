@@ -226,8 +226,10 @@ def main():
         print("[4/4] Xuất dữ liệu lên Google Sheets...")
         
         # Kiểm tra credentials
-        if not os.path.exists(args.credentials):
+        has_env_credentials = bool(os.getenv('GOOGLE_SERVICE_ACCOUNT_JSON') or os.getenv('GG_SERVICE_ACCOUNT_JSON'))
+        if not os.path.exists(args.credentials) and not has_env_credentials:
             print(f"✗ File credentials không tồn tại: {args.credentials}")
+            print("  Gợi ý: đặt GOOGLE_SERVICE_ACCOUNT_JSON trong .env để không cần file credentials")
             sys.exit(1)
         
         sheets_exporter = SheetsExporter(args.credentials, args.sheets_id)

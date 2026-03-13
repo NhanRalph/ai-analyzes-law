@@ -30,6 +30,8 @@ pip install -r requirements.txt
 5. Đặt file credentials vào `credentials/credentials.json`
 6. Chia sẻ Google Sheet với email của Service Account (với quyền Editor)
 
+> Nếu deploy cloud (Render/Railway) và không push file `credentials.json`, bạn có thể dùng biến môi trường `GOOGLE_SERVICE_ACCOUNT_JSON` chứa toàn bộ JSON Service Account.
+
 ## Sử dụng
 
 ## Web App (giao diện trực quan)

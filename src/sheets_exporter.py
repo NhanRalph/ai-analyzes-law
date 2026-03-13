@@ -2,9 +2,13 @@
 Module xuất dữ liệu lên Google Sheets
 """
 
+import json
+import os
+
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+from dotenv import load_dotenv
 
 class SheetsExporter:
     """
@@ -30,6 +34,24 @@ class SheetsExporter:
         self.client = None
         self.spreadsheet = None
         self.worksheet = None
+        load_dotenv()
+
+    def _get_service_account_json(self):
+        """
+        Lấy Service Account JSON từ biến môi trường (nếu có)
+
+        Returns:
+            dict | None: JSON object hoặc None
+        """
+        raw_json = os.getenv('GOOGLE_SERVICE_ACCOUNT_JSON') or os.getenv('GG_SERVICE_ACCOUNT_JSON')
+        if not raw_json:
+            return None
+
+        try:
+            return json.loads(raw_json)
+        except json.JSONDecodeError:
+            print("✗ GOOGLE_SERVICE_ACCOUNT_JSON không phải JSON hợp lệ")
+            return None
     
     def authenticate(self):
         """
@@ -39,10 +61,19 @@ class SheetsExporter:
             bool: True nếu xác thực thành công
         """
         try:
-            creds = Credentials.from_service_account_file(
-                self.credentials_path,
-                scopes=self.SCOPES
-            )
+            service_account_info = self._get_service_account_json()
+
+            if service_account_info:
+                creds = Credentials.from_service_account_info(
+                    service_account_info,
+                    scopes=self.SCOPES
+                )
+            else:
+                creds = Credentials.from_service_account_file(
+                    self.credentials_path,
+                    scopes=self.SCOPES
+                )
+
             self.client = gspread.authorize(creds)
             print("✓ Xác thực Google Sheets API thành công")
             return True
