@@ -1,0 +1,522 @@
+{
+  "metadata": {
+    "export_time": "2026-03-13T14:00:12.294495",
+    "total_entries": 5,
+    "format": "flat",
+    "definitions": {
+      "hoa_chat": [
+        {
+          "stt": "1",
+          "phan_nhom_cap_1": "Hóa chất",
+          "phan_nhom_cap_2": null,
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Hóa chất là chất, hỗn hợp chất tự nhiên hoặc được con người khai thác, tạo ra.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "khoản 1 Điều 2",
+          "vbqlpl_huong_dan_thuc_thi": null,
+          "chi_tiet": null,
+          "ghi_chu": null
+        },
+        {
+          "stt": "2",
+          "phan_nhom_cap_1": "Hóa chất cấm",
+          "phan_nhom_cap_2": null,
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Hóa chất cấm là hóa chất nguy hiểm được quy định tại Danh mục hóa chất, khoáng vật cấm ban hành theo quy định của Luật Đầu tư;",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "mục a khoản 3 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Luật số: 143/2025/QH15 Luật đầu tư",
+          "chi_tiet": "Phụ lục II",
+          "ghi_chu": null
+        },
+        {
+          "stt": "3",
+          "phan_nhom_cap_1": "Hóa chất nguy hiểm",
+          "phan_nhom_cap_2": null,
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Hóa chất nguy hiểm là hóa chất gây hại cho con người, cơ sở vật chất, tài sản, môi trường và có ít nhất một đặc tính nguy hiểm theo nguyên tắc phân loại do Thủ trưởng cơ quan đầu mối giúp Chính phủ thực hiện quản lý nhà nước ở trung ương về hóa chất (sau đây gọi chung là Thủ trưởng cơ quan quản lý nhà nước ở trung ương về hóa chất) quy định.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "khoản 4 Điều 24",
+          "vbqlpl_huong_dan_thuc_thi": null,
+          "chi_tiet": null,
+          "ghi_chu": null
+        },
+        {
+          "stt": null,
+          "phan_nhom_cap_1": "Chất độc",
+          "phan_nhom_cap_2": null,
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Chất độc là hóa chất mà thông qua tác động hóa học của nó lên các quá trình sống có thể gây tử vong, mất năng lực tạm thời hoặc gây tổn thương vĩnh viễn cho con người, theo các tiêu chí cụ thể do Chính phủ quy định.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "khoản 5 Điều 25",
+          "vbqlpl_huong_dan_thuc_thi": null,
+          "chi_tiet": null,
+          "ghi_chu": null
+        },
+        {
+          "stt": null,
+          "phan_nhom_cap_1": "Hóa chất cơ bản thuộc lĩnh vực công nghiệp hóa chất trọng điểm",
+          "phan_nhom_cap_2": null,
+          "phan_nhom_cap_3": "39 chất",
+          "mo_ta_chi_tiet": "Hóa chất cơ bản là hóa chất được sử dụng làm nguyên liệu, nhiên liệu, phụ gia, dung môi trong quá trình sản xuất hóa chất khác hoặc trong quá trình sản xuất của các ngành kinh tế.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "khoản 2 Điều 6",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục I",
+          "ghi_chu": null
+        },
+        {
+          "stt": "6",
+          "phan_nhom_cap_1": "Hóa chất sản xuất kinh doanh có điều kiện",
+          "phan_nhom_cap_2": "Chất",
+          "phan_nhom_cap_3": "786 chất",
+          "mo_ta_chi_tiet": null,
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 1 Điều 9; khoản 1 Điều 21",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất; Nghị định Số: 26/2026/NĐ-CP Quy định chi tiết và hướng dẫn thi hành một số điều của Luật Hóa Chất về quản lý hoạt động hóa chất và hóa chất nguy hiểm trong sản phẩm, hàng hóa",
+          "chi_tiet": "Phụ lục II",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "7",
+          "phan_nhom_cap_1": "Hóa chất sản xuất kinh doanh có điều kiện",
+          "phan_nhom_cap_2": "Hỗn hợp",
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Hỗn hợp chất sản xuất, kinh doanh có điều kiện là hỗn hợp chất chứa ít nhất một thành phần trong Danh mục hóa chất sản xuất, kinh doanh có điều kiện của Nghị định này có hàm lượng lớn hơn 5% khối lượng.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 1 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục II",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "8",
+          "phan_nhom_cap_1": "Hóa chất cần kiểm soát đặc biệt",
+          "phan_nhom_cap_2": "Chất cần kiểm soát đặc biệt - Nhóm 1A - Tiền chất công nghiệp",
+          "phan_nhom_cap_3": "22 chất",
+          "mo_ta_chi_tiet": "Nhóm 1 (IVB) Các tiền chất thiết yếu, tham gia vào cấu trúc chất ma túy, có ứng dụng hợp pháp trong y học và đời sống xã hội.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 2 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục III",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "9",
+          "phan_nhom_cap_1": "Hóa chất cần kiểm soát đặc biệt",
+          "phan_nhom_cap_2": "Chất cần kiểm soát đặc biệt - Nhóm 1B - Hóa chất thuộc công ước cấm phát triển, sản xuất, tàng trữ, sử dụng và phá hủy vũ khí hóa học.",
+          "phan_nhom_cap_3": "132 chất",
+          "mo_ta_chi_tiet": "2A - Hóa chất độc; Tiền chất; Hóa chất khác",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 2 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục III",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "10",
+          "phan_nhom_cap_1": "Hóa chất cần kiểm soát đặc biệt",
+          "phan_nhom_cap_2": "Chất cần kiểm soát đặc biệt - Nhóm 2A - Tiền chất công nghiệp",
+          "phan_nhom_cap_3": "18 chất",
+          "mo_ta_chi_tiet": "Nhóm 2 (IVC) Các tiền chất là hóa chất, dung môi, chất xúc tác dùng trong quá trình sản xuất chất ma túy.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 2 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục III",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "11",
+          "phan_nhom_cap_1": "Hóa chất cần kiểm soát đặc biệt",
+          "phan_nhom_cap_2": "Chất cần kiểm soát đặc biệt - Nhóm 2B - Hóa chất thuộc công ước cấm phát triển, sản xuất, tàng trữ, sử dụng và phá hủy vũ khí hóa học.",
+          "phan_nhom_cap_3": "17 chất",
+          "mo_ta_chi_tiet": "2A - Hóa chất độc; Tiền chất",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 2 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục III",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "12",
+          "phan_nhom_cap_1": "Hóa chất cần kiểm soát đặc biệt",
+          "phan_nhom_cap_2": "Chất cần kiểm soát đặc biệt - Nhóm 2C - Hóa chât thuộc các công ước quốc tế về hóa chất",
+          "phan_nhom_cap_3": "52 chất",
+          "mo_ta_chi_tiet": "Hóa chất thuộc Công ước Rotterdam và Công ước Stockholm (2)",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 2 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục III",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "13",
+          "phan_nhom_cap_1": "Hóa chất cần kiểm soát đặc biệt",
+          "phan_nhom_cap_2": "Hỗn hợp cần kiểm soát đặc biệt",
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Hỗn hợp chất cần kiểm soát đặc biệt là hỗn hợp chất chứa ít nhất một thành phần:\n- Thuộc nhóm 1 của Danh mục hóa chất cần kiểm soát đặc biệt của Nghị định này có hàm lượng lớn hơn 1% khối lượng.\n- Thuộc nhóm 2 của Danh mục hóa chất cần kiểm soát đặc biệt của Nghị định này có hàm lượng lớn hơn 5% khối lượng.\nHỗn hợp chất có chứa thành phần trong Danh mục hóa chất sản xuất, kinh doanh có điều kiện và có chứa thành phần trong Danh mục hóa chất cần kiểm soát đặc biệt thì được coi là hỗn hợp chất cần kiểm soát đặc biệt và thực hiện các quy định đối với hỗn hợp chất cần kiểm soát đặc biệt.",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "điểm a khoản 2 Điều 9",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục III",
+          "ghi_chu": "Miễn trừ cấp Giấy chứng nhận, Giấy phép sản xuất, kinh doanh đối với hóa chất có điều kiện, hóa chất cần kiểm soát đặc biệt có nồng độ dưới 0,1% (<0,1%) khối lượng của hỗn hợp chất."
+        },
+        {
+          "stt": "14",
+          "phan_nhom_cap_1": "Hoá chất phải xây dựng kế hoạch phòng ngừa, ứng phó sự cố hoá chất",
+          "phan_nhom_cap_2": "Chất",
+          "phan_nhom_cap_3": "Dự kiến 271 chất",
+          "mo_ta_chi_tiet": null,
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "mục a khoản 1 Điều 37",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục IV",
+          "ghi_chu": null
+        },
+        {
+          "stt": "15",
+          "phan_nhom_cap_1": "Hoá chất phải xây dựng kế hoạch phòng ngừa, ứng phó sự cố hoá chất",
+          "phan_nhom_cap_2": "Hỗn hợp",
+          "phan_nhom_cap_3": "I-Nguy hại sức khỏe; Dự kiến 3 nhóm",
+          "mo_ta_chi_tiet": null,
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "mục a khoản 1 Điều 37",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục IV",
+          "ghi_chu": null
+        },
+        {
+          "stt": "16",
+          "phan_nhom_cap_1": "Hoá chất phải xây dựng kế hoạch phòng ngừa, ứng phó sự cố hoá chất",
+          "phan_nhom_cap_2": "Hỗn hợp",
+          "phan_nhom_cap_3": "II-Nguy hại vật chất; Dự kiến 14 nhóm",
+          "mo_ta_chi_tiet": null,
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "mục a khoản 1 Điều 37",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục IV",
+          "ghi_chu": null
+        },
+        {
+          "stt": "17",
+          "phan_nhom_cap_1": "Hoá chất phải xây dựng kế hoạch phòng ngừa, ứng phó sự cố hoá chất",
+          "phan_nhom_cap_2": "Hỗn hợp",
+          "phan_nhom_cap_3": "III-Nguy hại cho môi trường; Dự kiến 2 nhóm",
+          "mo_ta_chi_tiet": null,
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "mục a khoản 1 Điều 37",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục IV",
+          "ghi_chu": null
+        },
+        {
+          "stt": "18",
+          "phan_nhom_cap_1": "Hoá chất phải xây dựng kế hoạch phòng ngừa, ứng phó sự cố hoá chất",
+          "phan_nhom_cap_2": "Hỗn hợp",
+          "phan_nhom_cap_3": "IV-Nguy hại khác; Dự kiến 2 nhóm",
+          "mo_ta_chi_tiet": null,
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Luật số: 69/2025/QH15 Luật hóa chất",
+          "dieu_khoan_quy_dinh": "mục a khoản 1 Điều 37",
+          "vbqlpl_huong_dan_thuc_thi": "Nghị định Số: 24/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "chi_tiet": "Phụ lục IV",
+          "ghi_chu": null
+        },
+        {
+          "stt": "19",
+          "phan_nhom_cap_1": "Hóa chất xuất, nhập khẩu",
+          "phan_nhom_cap_2": null,
+          "phan_nhom_cap_3": null,
+          "mo_ta_chi_tiet": "Hóa chất thuộc các chương 28 và chương 29 của Danh mục hàng hóa xuất khẩu, nhập khẩu Việt Nam",
+          "pham_vi_dieu_chinh": "FALSE",
+          "van_ban": "Nghị định Số: 26/2026/NĐ-CP Quy định các Danh mục hoá chất thuộc phạm vi điều chỉnh của Luật Hoá chất",
+          "dieu_khoan_quy_dinh": "khoản 1 Điều 6",
+          "vbqlpl_huong_dan_thuc_thi": "Danh mục hàng hóa xuất khẩu nhập khẩu Việt Nam",
+          "chi_tiet": "Chương 28, Chương 29",
+          "ghi_chu": null
+        }
+      ],
+      "hang_muc": [
+        {
+          "id": "CAT_01",
+          "hang_muc_tuan_thu": "Yêu cầu chung",
+          "ten_tieng_anh": "General Requirements",
+          "dinh_nghia": "Các quy định mang tính nguyên tắc, áp dụng rộng rãi cho nhiều hoạt động hoặc là tiền đề cho các hoạt động khác (phân loại, ghi nhãn, an toàn chung).",
+          "detection_keywords": [
+            "phân loại hóa chất",
+            "ghs",
+            "ghi nhãn",
+            "phiếu an toàn hóa chất",
+            "msds",
+            "sds",
+            "khai báo hóa chất",
+            "huấn luyện an toàn",
+            "đào tạo",
+            "trách nhiệm quản lý"
+          ],
+          "doi_tuong_ap_dung": "Tất cả các loại hóa chất",
+          "uu_tien_kiem_tra": "Cao"
+        },
+        {
+          "id": "CAT_02",
+          "hang_muc_tuan_thu": "Hoạt động bị cấm",
+          "ten_tieng_anh": "Prohibited Activities",
+          "dinh_nghia": "Các quy định liệt kê hành vi, loại hóa chất không được phép thực hiện, hoặc chỉ được thực hiện trong trường hợp ngoại lệ đặc biệt.",
+          "detection_keywords": [
+            "nghiêm cấm",
+            "bị cấm",
+            "không được phép",
+            "hành vi bị cấm",
+            "trái phép",
+            "cấm sản xuất",
+            "cấm kinh doanh",
+            "sử dụng sai mục đích"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất cấm, Hóa chất độc, Tiền chất",
+          "uu_tien_kiem_tra": "Rất cao (Critical)"
+        },
+        {
+          "id": "CAT_03",
+          "hang_muc_tuan_thu": "Nghiên cứu",
+          "ten_tieng_anh": "Research",
+          "dinh_nghia": "Quy định áp dụng cho việc sử dụng hóa chất trong phòng thí nghiệm, viện nghiên cứu nhằm mục đích khoa học, quy mô nhỏ.",
+          "detection_keywords": [
+            "nghiên cứu khoa học",
+            "phòng thí nghiệm",
+            "thí nghiệm",
+            "quy mô phòng thí nghiệm",
+            "mẫu thử",
+            "nghiên cứu thử nghiệm"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất nguy hiểm, Tiền chất (quy mô nhỏ)",
+          "uu_tien_kiem_tra": "Trung bình"
+        },
+        {
+          "id": "CAT_04",
+          "hang_muc_tuan_thu": "Thử nghiệm",
+          "ten_tieng_anh": "Testing",
+          "dinh_nghia": "Quy định về kiểm tra, đánh giá, phân tích thành phần, tính chất lý-hóa, độc tính bởi các đơn vị chức năng.",
+          "detection_keywords": [
+            "thử nghiệm",
+            "kiểm nghiệm",
+            "phân tích hóa chất",
+            "đánh giá sự phù hợp",
+            "trung tâm kiểm nghiệm",
+            "lấy mẫu",
+            "lưu mẫu"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất mới, Hóa chất nhập khẩu",
+          "uu_tien_kiem_tra": "Trung bình"
+        },
+        {
+          "id": "CAT_05",
+          "hang_muc_tuan_thu": "Sản xuất",
+          "ten_tieng_anh": "Production",
+          "dinh_nghia": "Yêu cầu pháp lý đối với cơ sở vật chất, con người và quy trình để tạo ra hóa chất (bao gồm pha chế, chiết xuất...).",
+          "detection_keywords": [
+            "sản xuất hóa chất",
+            "pha chế",
+            "trích ly",
+            "cô đặc",
+            "dây chuyền sản xuất",
+            "nhà xưởng",
+            "giấy chứng nhận đủ điều kiện sản xuất",
+            "giấy phép sản xuất"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất SXKD có điều kiện, Hóa chất hạn chế",
+          "uu_tien_kiem_tra": "Cao"
+        },
+        {
+          "id": "CAT_06",
+          "hang_muc_tuan_thu": "Kinh doanh",
+          "ten_tieng_anh": "Trading",
+          "dinh_nghia": "Quy định về mua bán, xuất nhập khẩu, phân phối, kiểm soát dòng chảy thương mại.",
+          "detection_keywords": [
+            "kinh doanh hóa chất",
+            "mua bán",
+            "xuất khẩu",
+            "nhập khẩu",
+            "phân phối",
+            "cửa hàng",
+            "giấy phép kinh doanh",
+            "phiếu kiểm soát mua bán"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất SXKD có điều kiện, Tiền chất, Hóa chất hạn chế",
+          "uu_tien_kiem_tra": "Cao"
+        },
+        {
+          "id": "CAT_07",
+          "hang_muc_tuan_thu": "Vận chuyển",
+          "ten_tieng_anh": "Transportation",
+          "dinh_nghia": "Quy định về việc di chuyển hóa chất (đường bộ, thủy, sắt...), phương tiện và người áp tải.",
+          "detection_keywords": [
+            "vận chuyển",
+            "xe bồn",
+            "phương tiện vận chuyển",
+            "người áp tải",
+            "giấy phép vận chuyển",
+            "hàng nguy hiểm",
+            "đóng gói",
+            "bao bì vận chuyển"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất nguy hiểm",
+          "uu_tien_kiem_tra": "Cao"
+        },
+        {
+          "id": "CAT_08",
+          "hang_muc_tuan_thu": "Tồn trữ",
+          "ten_tieng_anh": "Storage",
+          "dinh_nghia": "Quy định kỹ thuật/an toàn về lưu giữ hóa chất tại kho, bãi, bồn chứa.",
+          "detection_keywords": [
+            "tồn trữ",
+            "lưu giữ",
+            "kho chứa",
+            "bồn chứa",
+            "bãi chứa",
+            "kho hóa chất",
+            "khoảng cách an toàn",
+            "bảo quản",
+            "xếp dỡ"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất nguy hiểm, Tiền chất",
+          "uu_tien_kiem_tra": "Cao"
+        },
+        {
+          "id": "CAT_09",
+          "hang_muc_tuan_thu": "Sử dụng",
+          "ten_tieng_anh": "Usage",
+          "dinh_nghia": "Trách nhiệm của người/tổ chức sử dụng hóa chất (không bán lại) để tạo sản phẩm khác hoặc dịch vụ.",
+          "detection_keywords": [
+            "sử dụng hóa chất",
+            "người sử dụng",
+            "tiêu thụ",
+            "định mức tiêu hao",
+            "tiếp xúc hóa chất",
+            "trang bị bảo hộ",
+            "an toàn sử dụng"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất độc, Tiền chất, Hóa chất nguy hiểm",
+          "uu_tien_kiem_tra": "Trung bình"
+        },
+        {
+          "id": "CAT_10",
+          "hang_muc_tuan_thu": "Xử lý",
+          "ten_tieng_anh": "Disposal & Treatment",
+          "dinh_nghia": "Quy định về thải bỏ, tiêu hủy hóa chất/bao bì và ứng phó sự cố.",
+          "detection_keywords": [
+            "xử lý chất thải",
+            "tiêu hủy",
+            "thải bỏ",
+            "xử lý sự cố",
+            "tràn đổ",
+            "rò rỉ",
+            "thu gom",
+            "bao bì thải",
+            "chất thải nguy hại"
+          ],
+          "doi_tuong_ap_dung": "Hóa chất nguy hiểm, Chất thải hóa chất",
+          "uu_tien_kiem_tra": "Cao"
+        }
+      ]
+    }
+  },
+  "data": [
+    {
+      "chuong": "Chương I",
+      "muc": "",
+      "tieu_de_muc": "",
+      "dieu": "Điều 1",
+      "tieu_de_dieu": "Phạm vi điều chỉnh",
+      "khoan": "",
+      "diem": "",
+      "noi_dung": "Luật này quy định về hóa chất, quản lý hoạt động hóa chất; phát triển ngành công nghiệp hóa chất; thông tin hóa chất; hóa chất nguy hiểm trong sản phẩm, hàng hóa; an toàn, an ninh trong hoạt động hóa chất.",
+      "ai_classification": {
+        "id_hang_muc": "CAT_01",
+        "ten_hang_muc": "Yêu cầu chung",
+        "nhom_hoa_chat": "Hóa chất, Hóa chất nguy hiểm",
+        "ghi_chu_ai": "Điều này nêu phạm vi điều chỉnh của Luật, bao gồm các hoạt động quản lý hóa chất và an toàn, an ninh hóa chất, là những yêu cầu mang tính nguyên tắc chung."
+      }
+    },
+    {
+      "chuong": "Chương I",
+      "muc": "",
+      "tieu_de_muc": "",
+      "dieu": "Điều 2",
+      "tieu_de_dieu": "Giải thích từ ngữ",
+      "khoan": "",
+      "diem": "",
+      "noi_dung": "Trong Luật này, các từ ngữ dưới đây được hiểu như sau:",
+      "ai_classification": {
+        "id_hang_muc": null,
+        "ten_hang_muc": null,
+        "nhom_hoa_chat": null,
+        "ghi_chu_ai": "Đoạn này chỉ giới thiệu mục định nghĩa, không phải là một quy định về hoạt động cụ thể hay nhóm hóa chất."
+      }
+    },
+    {
+      "chuong": "Chương I",
+      "muc": "",
+      "tieu_de_muc": "",
+      "dieu": "Điều 2",
+      "tieu_de_dieu": "Giải thích từ ngữ",
+      "khoan": "1",
+      "diem": "",
+      "noi_dung": "Hóa chất là chất, hỗn hợp chất tự nhiên hoặc được con người khai thác, tạo ra.",
+      "ai_classification": {
+        "id_hang_muc": null,
+        "ten_hang_muc": null,
+        "nhom_hoa_chat": "Hóa chất",
+        "ghi_chu_ai": "Đây là định nghĩa về hóa chất, không phải là một yêu cầu tuân thủ cụ thể."
+      }
+    },
+    {
+      "chuong": "Chương I",
+      "muc": "",
+      "tieu_de_muc": "",
+      "dieu": "Điều 2",
+      "tieu_de_dieu": "Giải thích từ ngữ",
+      "khoan": "2",
+      "diem": "",
+      "noi_dung": "Chất là đơn chất, hợp chất bao gồm cả tạp chất sinh ra trong quá trình chế biến; những phụ gia cần thiết để bảo đảm đặc tính lý, hóa ổn định; không bao gồm dung môi mà khi tách ra thì tính chất của chất đó không thay đổi.",
+      "ai_classification": {
+        "id_hang_muc": null,
+        "ten_hang_muc": null,
+        "nhom_hoa_chat": "Hóa chất",
+        "ghi_chu_ai": "Đây là định nghĩa về \"chất\", một thành phần cơ bản của hóa chất, không phải là một yêu cầu tuân thủ cụ thể."
+      }
+    },
+    {
+      "chuong": "Chương I",
+      "muc": "",
+      "tieu_de_muc": "",
+      "dieu": "Điều 2",
+      "tieu_de_dieu": "Giải thích từ ngữ",
+      "khoan": "3",
+      "diem": "",
+      "noi_dung": "Hỗn hợp chất là tập hợp của hai chất hoặc nhiều chất mà giữa chúng không xảy ra phản ứng hóa học trong điều kiện bình thường.",
+      "ai_classification": {
+        "id_hang_muc": null,
+        "ten_hang_muc": null,
+        "nhom_hoa_chat": "Hóa chất",
+        "ghi_chu_ai": "Đây là định nghĩa về \"hỗn hợp chất\", không phải là một yêu cầu tuân thủ cụ thể."
+      }
+    }
+  ]
+}

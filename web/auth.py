@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from functools import lru_cache
 from typing import Any, Dict
 
@@ -9,6 +10,8 @@ from firebase_admin import auth, credentials
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 
 def _build_public_firebase_config() -> Dict[str, str]:
@@ -69,5 +72,15 @@ def get_current_user(authorization: str = Header(default="")) -> Dict[str, Any]:
         init_firebase_admin()
         decoded = auth.verify_id_token(id_token)
         return decoded
+    except RuntimeError as err:
+        logger.exception("Firebase Admin init failed")
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                "Backend chưa cấu hình Firebase Admin credentials. "
+                "Cần set FIREBASE_SERVICE_ACCOUNT_JSON hoặc FIREBASE_SERVICE_ACCOUNT_PATH trên môi trường deploy."
+            ),
+        ) from err
     except Exception:
+        logger.info("Invalid Firebase ID token")
         raise HTTPException(status_code=401, detail="ID token không hợp lệ")

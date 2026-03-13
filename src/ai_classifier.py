@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import random
 import logging
 from typing import List, Dict, Any, Optional
 from google import genai
@@ -85,6 +86,38 @@ class AIClassifier:
         if not self.api_key or not self.client:
             return entries
 
+        def _strip_code_fences(text: str) -> str:
+            t = (text or "").strip()
+            if t.startswith("```"):
+                # handle ```json ... ``` or ``` ... ```
+                t = t.strip("`").strip()
+                if t.lower().startswith("json"):
+                    t = t[4:].strip()
+            if t.endswith("```"):
+                t = t[:-3].strip()
+            return t
+
+        def _is_retryable_error(err: Exception) -> bool:
+            # google-genai exceptions often stringify with code/status info
+            s = str(err).lower()
+            retry_tokens = [
+                "503",
+                "unavailable",
+                "high demand",
+                "429",
+                "resource_exhausted",
+                "rate",
+                "quota",
+                "timeout",
+                "timed out",
+                "deadline exceeded",
+                "temporarily",
+                "500",
+                "502",
+                "504",
+            ]
+            return any(tok in s for tok in retry_tokens) or isinstance(err, json.JSONDecodeError)
+
         batch_size = 15 
         results = []
         system_instruction = self._build_system_instruction()
@@ -99,17 +132,51 @@ class AIClassifier:
                 user_content += text
             
             try:
-                response = self.client.models.generate_content(
-                    model=self.model_id,
-                    contents=user_content,
-                    config=types.GenerateContentConfig(
-                        system_instruction=system_instruction,
-                        response_mime_type="application/json",
-                    )
-                )
-                
-                # SDK mới trả về object có thuộc tính .text hoặc parsed JSON trực tiếp nếu cấu hình
-                ai_data = json.loads(response.text)
+                max_attempts = 5
+                base_delay_s = 2.0
+                max_delay_s = 30.0
+
+                ai_data = None
+                last_error: Optional[Exception] = None
+
+                for attempt in range(1, max_attempts + 1):
+                    try:
+                        response = self.client.models.generate_content(
+                            model=self.model_id,
+                            contents=user_content,
+                            config=types.GenerateContentConfig(
+                                system_instruction=system_instruction,
+                                response_mime_type="application/json",
+                            )
+                        )
+
+                        raw_text = _strip_code_fences(getattr(response, "text", "") or "")
+                        parsed = json.loads(raw_text)
+                        if not isinstance(parsed, list):
+                            raise ValueError("AI response JSON phải là mảng")
+                        if len(parsed) < len(current_batch):
+                            raise ValueError(
+                                f"AI response thiếu phần tử: cần {len(current_batch)} nhưng có {len(parsed)}"
+                            )
+
+                        ai_data = parsed
+                        last_error = None
+                        break
+                    except Exception as e:
+                        last_error = e
+                        if (attempt >= max_attempts) or (not _is_retryable_error(e)):
+                            raise
+
+                        delay = min(max_delay_s, base_delay_s * (2 ** (attempt - 1)))
+                        delay += random.uniform(0, 0.8)
+                        logger.warning(
+                            f"Gemini lỗi tạm thời ở batch {i//batch_size + 1} "
+                            f"(attempt {attempt}/{max_attempts}): {e} | retry sau {delay:.1f}s"
+                        )
+                        time.sleep(delay)
+
+                if ai_data is None:
+                    raise last_error or RuntimeError("Không nhận được dữ liệu từ Gemini")
                 
                 for j, entry in enumerate(current_batch):
                     classification = ai_data[j] if j < len(ai_data) else {}
